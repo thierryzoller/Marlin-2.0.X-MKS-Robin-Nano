@@ -136,7 +136,7 @@
 #define HEATER_BED_PIN     PA0   // HOT BED
 
 #define FAN_PIN            PB1   // FAN
-//#define E0_AUTO_FAN    PB0
+#define E0_AUTO_FAN    PB0
 
 //
 // Thermocouples
@@ -155,11 +155,11 @@
 //
 
 //#define LED_PIN            PB2
-//#define NEO_PIXEL_1        PA10  // USED WIFI RX PIN
-//#define NEO_PIXEL_2        PA9   // USED WIFI TX PIN
+#define NEO_PIXEL_1        PA10  // USED WIFI RX PIN
+#define NEO_PIXEL_2        PA9   // USED WIFI TX PIN
 
 //
-// WIFI ESP8266   (Not working in the version coming in the following updates)
+// WIFI ESP8266 
 //
 //#define WIFI_TX_PIN    PA10
 //#define WIFI_RX_PIN    PA9
@@ -169,8 +169,18 @@
 //
 // SD Card
 //
+#ifndef SDCARD_CONNECTION
+  #define SDCARD_CONNECTION              ONBOARD
+#endif
+
 #define SDIO_SUPPORT
-#define SD_DETECT_PIN      PD12
+#define SD_DETECT_PIN                       PD12
+#define ONBOARD_SD_CS_PIN                   PC11
+
+//
+// LCD / Controller
+//
+#define BEEPER_PIN                          PC5
 
 //
 // LCD / Controller
