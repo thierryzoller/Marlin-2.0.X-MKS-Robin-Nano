@@ -4,7 +4,7 @@
 ## Marlin 2.0<img align="right" width=175 src="buildroot/share/pixmaps/logo/marlin-250.png" />
 
 
-Marlin 2.0 takes this popular RepRap firmware to the next level by adding support for much faster 32-bit and ARM-based boards while improving support for 8-bit AVR boards. Read about Marlin's decision to use a "Hardware Abstraction Layer" below.
+Marlin 2.0 takes this popular RepRap firmware to the next level by adding support for much faster 32-bit and ARM-based boards while improving support for 8-bit AVR boards.
 
 Download earlier versions of Robin Nano Firmware on the [Releases page](https://github.com/le3tspeak/Marlin-2.0.X-Sapphire-PRO/releases).
 
@@ -22,20 +22,26 @@ To build Marlin 2.0 you'll need [PlatformIO](http://docs.platformio.org/en/lates
   [MKS Robin Nano](https://makerbase.com.cn/en/)|ARM® Cortex-M3 / STM32F103VET6| MKS Robin Nano 1.1 
   [MKS Robin Nano](https://makerbase.com.cn/en/)|ARM® Cortex-M3 / STM32F103VET6| MKS Robin Nano 1.2
   
-### Features of the Configuration of Branch 2.0.5.3-EEPROM
+### Features of the Configuration of Branch 2.0.5.3-EEPROM  
 
   Features|Active|Value
   --------|------|-----
+  Fast Config Switch Pro/Plus|True|Pro
   UI Type|-|Classic Marlin
   EEPROM|True|SPI Flash
   M575 to change the baud rate|True|250000
-  Linear Advance|True|0
+  G0 Support|True|-
+  G2/G3 Arc Support|True|-
+  Linear Advance|False|-
   Classic Jerk|False|-
+  Bézier curve acceleration|True|-
   Junction Deviation|True|0.05
+  Mesh Bed Leveling|True|-
   Filament sensor|True|-
   TMC UART|-|Ready
   TMC SPI|-|in progress
   Neopixel|-|Ready
+  BINARY File Transfer|True|-
 
   Axes|Type
   ----|----
@@ -46,8 +52,8 @@ To build Marlin 2.0 you'll need [PlatformIO](http://docs.platformio.org/en/lates
 
   Memory consumption|Value
   --------------------|-------------------------------------------
-  RAM:    |59.3% (used 38856 bytes from 65536 bytes)
-  Flash:  |46.7% (used 244692 bytes from 524288 bytes)
+  RAM:    |58.3% (used 38200 bytes from 65536 bytes)
+  Flash:  |46.1% (used 241772 bytes from 524288 bytes)
   
 ## Submitting Changes
 
