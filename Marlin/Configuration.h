@@ -144,10 +144,11 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-  #ifndef Sapphire_Plus
+  #if ENABLED (Sapphire_Pro)
     //Sapphire Pro
     #define CUSTOM_MACHINE_NAME "Sapphire Pro"
-  #else
+  #endif
+  #if ENABLED (Sapphire_Plus)
     //Sapphire Plus
     #define CUSTOM_MACHINE_NAME "Sapphire Plus"
   #endif
@@ -516,12 +517,13 @@
   //#define DEFAULT_Ki 2.25
   //#define DEFAULT_Kd 440
 
-  #ifndef Sapphire_Plus
+   #if ENABLED (Sapphire_Pro)
     //Sapphire Pro
     #define DEFAULT_Kp 14.21
     #define DEFAULT_Ki 0.88
     #define DEFAULT_Kd 57.26
-  #else
+  #endif
+  #if ENABLED (Sapphire_Plus)
     //Sapphire Plus
     #define DEFAULT_Kp 15.30
     #define DEFAULT_Ki 0.85
@@ -575,12 +577,13 @@
   //#define DEFAULT_bedKi 1.41
   //#define DEFAULT_bedKd 1675.16
 
-  #ifndef Sapphire_Plus
+  #if ENABLED (Sapphire_Pro)
     //Sapphire Pro
     #define DEFAULT_bedKp 21.37
     #define DEFAULT_bedKi 3.29
     #define DEFAULT_bedKd 92.53
-   #else
+   #endif
+  #if ENABLED (Sapphire_Plus)
     //Sapphire Plus
    #define DEFAULT_bedKp 45.0
    #define DEFAULT_bedKi 7.9
@@ -1138,14 +1141,12 @@
 
 // The size of the print bed   
 
-#ifndef Sapphire_Plus
-
+ #if ENABLED (Sapphire_Pro)
     //Sapphire Pro
     #define X_BED_SIZE 225
     #define Y_BED_SIZE 225
-
-  #else
-
+  #endif
+ #if ENABLED (Sapphire_Plus)
     //Sapphire Plus
     #define X_BED_SIZE 300
     #define Y_BED_SIZE 300
@@ -1162,12 +1163,11 @@
 
 
 
-#ifndef Sapphire_Plus
-
+ #if ENABLED (Sapphire_Pro)
     //Sapphire Pro
     #define Z_MAX_POS 225
-  #else
-
+  #endif
+ #if ENABLED (Sapphire_Plus)
     //Sapphire Plus
     #define Z_MAX_POS 350
 #endif
