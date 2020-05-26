@@ -716,6 +716,7 @@
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
  #if ENABLED (Sapphire_Pro)
+    //Sapphire Pro
    #define X_DRIVER_TYPE  TMC2208_STANDALONE
    #define Y_DRIVER_TYPE  TMC2208_STANDALONE
    #define Z_DRIVER_TYPE  A4988
@@ -734,6 +735,7 @@
    //#define E7_DRIVER_TYPE A4988
    #endif
  #if ENABLED (Sapphire_Plus)
+    //Sapphire Plus
    #define X_DRIVER_TYPE  TMC2208_STANDALONE
    #define Y_DRIVER_TYPE  TMC2208_STANDALONE
    #define Z_DRIVER_TYPE  A4988
@@ -796,9 +798,11 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #if ENABLED (Sapphire_Pro)
+  //Sapphire Pro
  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415 }
 #endif
 #if ENABLED (Sapphire_Plus)
+  //Sapphire Plus
  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
 #endif
 
@@ -1137,6 +1141,7 @@
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #if ENABLED (Sapphire_Pro)
+  //Sapphire Pro
   #define INVERT_E0_DIR false
   #define INVERT_E1_DIR false
   #define INVERT_E2_DIR false
@@ -1147,6 +1152,7 @@
   #define INVERT_E7_DIR false
 #endif
 #if ENABLED (Sapphire_Plus)
+  //Sapphire Plus
   #define INVERT_E0_DIR true
   #define INVERT_E1_DIR false
   #define INVERT_E2_DIR false
