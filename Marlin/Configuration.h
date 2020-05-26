@@ -795,7 +795,12 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
+#if ENABLED (Sapphire_Pro)
 #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415 }
+#endif
+#if ENABLED (Sapphire_Plus)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
+#endif
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1131,6 +1136,7 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
+#if ENABLED (Sapphire_Pro)
 #define INVERT_E0_DIR false
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
@@ -1139,6 +1145,17 @@
 #define INVERT_E5_DIR false
 #define INVERT_E6_DIR false
 #define INVERT_E7_DIR false
+#elif
+#if ENABLED (Sapphire_Plus)
+#define INVERT_E0_DIR true
+#define INVERT_E1_DIR false
+#define INVERT_E2_DIR false
+#define INVERT_E3_DIR false
+#define INVERT_E4_DIR false
+#define INVERT_E5_DIR false
+#define INVERT_E6_DIR false
+#define INVERT_E7_DIR false
+#elif
 
 // @section homing
 
