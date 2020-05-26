@@ -20,6 +20,7 @@
  *
  */
 #pragma once
+#include <Version.h>
 
 /**
  * Configuration.h
@@ -37,6 +38,14 @@
  *
  */
 #define CONFIGURATION_H_VERSION 020005
+
+//===========================================================================
+//============================= Sapphire Pro/Plus Preset=====================
+//===========================================================================
+
+#define Sapphire_Pro
+//#define Sapphire_Plus
+
 
 //===========================================================================
 //============================= Getting Started =============================
@@ -71,7 +80,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(le3tspeak, Sapphire Pro)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(le3tspeak, MKS Robin Nano)" // Who made the changes.
 #define CUSTOM_VERSION_FILE Version.h 
 
 /**
@@ -85,7 +94,7 @@
  * respectfully request that you retain the unmodified Marlin boot screen.
  */
 
-// Show the Marlin bootscreen on startup. ** ENABLE FOR PRODUCTION **
+// Show the Marlin bootscreen on startup. 
 #define SHOW_BOOTSCREEN
 
 
@@ -104,7 +113,7 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT -1
+#define SERIAL_PORT 3
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
@@ -113,7 +122,7 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT_2 3
+#define SERIAL_PORT_2 1
 
 /**
  * This setting determines the communication speed of the printer.
@@ -135,7 +144,14 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Sapphire Pro"
+  #ifndef Sapphire_Plus
+    //Sapphire Pro
+    #define CUSTOM_MACHINE_NAME "Sapphire Pro"
+  #else
+    //Sapphire Plus
+    #define CUSTOM_MACHINE_NAME "Sapphire Plus"
+  #endif
+
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like http://www.uuidgenerator.net/version4
@@ -500,10 +516,17 @@
   //#define DEFAULT_Ki 2.25
   //#define DEFAULT_Kd 440
 
-  //Sapphire Pro
- #define DEFAULT_Kp 14.21
- #define DEFAULT_Ki 0.88
- #define DEFAULT_Kd 57.26
+  #ifndef Sapphire_Plus
+    //Sapphire Pro
+    #define DEFAULT_Kp 14.21
+    #define DEFAULT_Ki 0.88
+    #define DEFAULT_Kd 57.26
+  #else
+    //Sapphire Plus
+    #define DEFAULT_Kp 15.30
+    #define DEFAULT_Ki 0.85
+    #define DEFAULT_Kd 56.55
+  #endif
 
 #endif // PIDTEMP
 
@@ -552,11 +575,18 @@
   //#define DEFAULT_bedKi 1.41
   //#define DEFAULT_bedKd 1675.16
 
-  // Sapphire Pro
-  #define DEFAULT_bedKp 21.37
-  #define DEFAULT_bedKi 3.29
-  #define DEFAULT_bedKd 92.53
-
+  #ifndef Sapphire_Plus
+    //Sapphire Pro
+    #define DEFAULT_bedKp 21.37
+    #define DEFAULT_bedKi 3.29
+    #define DEFAULT_bedKd 92.53
+   #else
+    //Sapphire Plus
+   #define DEFAULT_bedKp 45.0
+   #define DEFAULT_bedKi 7.9
+   #define DEFAULT_bedKd 150
+  #endif
+  
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
 
@@ -742,7 +772,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.4, 80.4, 1608, 436.5 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -762,7 +792,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 100, 2000 }
+#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 200, 2000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -824,7 +854,9 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
+
 #define S_CURVE_ACCELERATION
+
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -873,7 +905,7 @@
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
 #define PROBE_MANUALLY
-#define MANUAL_PROBE_START_Z 0.5
+#define MANUAL_PROBE_START_Z 0.25
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
@@ -1104,9 +1136,22 @@
 
 // @section machine
 
-// The size of the print bed
-#define X_BED_SIZE 225
-#define Y_BED_SIZE 225
+// The size of the print bed   
+
+#ifndef Sapphire_Plus
+
+    //Sapphire Pro
+    #define X_BED_SIZE 225
+    #define Y_BED_SIZE 225
+
+  #else
+
+    //Sapphire Plus
+    #define X_BED_SIZE 300
+    #define Y_BED_SIZE 300
+  #endif
+
+
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
@@ -1114,7 +1159,19 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 225
+
+
+
+#ifndef Sapphire_Plus
+
+    //Sapphire Pro
+    #define Z_MAX_POS 225
+  #else
+
+    //Sapphire Plus
+    #define Z_MAX_POS 350
+#endif
+
 
 /**
  * Software Endstops
@@ -1142,7 +1199,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
+  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
 #endif
 
 /**
@@ -2229,9 +2286,9 @@
 //#define NEOPIXEL_LED
 #if ENABLED(NEOPIXEL_LED)
   #define NEOPIXEL_TYPE   NEO_GRB // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
-  #define NEOPIXEL_PIN    NEO_PIXEL_1       // LED driving pin
+  #define NEOPIXEL_PIN    NEO_PIXEL_1       // LED driving pin Set in MKS Robin Nano Pin File!!
   //#define NEOPIXEL2_TYPE NEOPIXEL_TYPE
-  //#define NEOPIXEL2_PIN   NEO_PIXEL_2
+  //#define NEOPIXEL2_PIN   NEO_PIXEL_2    // LED 2 driving pin Set in MKS Robin Nano Pin File!!
   #define NEOPIXEL_PIXELS 30       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
   #define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
   #define NEOPIXEL_BRIGHTNESS 127  // Initial brightness (0-255)
@@ -2254,7 +2311,7 @@
  *  - Turn off after the print has finished and the user has pushed a button
  */
 #if ANY(BLINKM, RGB_LED, RGBW_LED, PCA9632, PCA9533, NEOPIXEL_LED)
-  #define PRINTER_EVENT_LEDS
+  //#define PRINTER_EVENT_LEDS
 #endif
 
 /**
