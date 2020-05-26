@@ -26,7 +26,7 @@ To build Marlin 2.0 you'll need [PlatformIO](http://docs.platformio.org/en/lates
 
   Features|Active|Value
   --------|------|-----
-  Fast Config Switch Pro/Plus|True|Pro
+  Fast Config Switch Sapphire Pro/Plus|True|Pro
   UI Type|-|Classic Marlin
   EEPROM|True|SPI Flash
   M575 to change the baud rate|True|250000
