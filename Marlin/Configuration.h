@@ -601,7 +601,7 @@
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
   //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
   //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
-  #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
+  #define PID_FUNCTIONAL_RANGE 20 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #endif
 
@@ -739,7 +739,7 @@
     #define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Z_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
-    #define Y_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+    #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Z_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe.
 
@@ -774,15 +774,15 @@
  */
 #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
-    #define X_DRIVER_TYPE  TMC2208_STANDALONE
-    #define Y_DRIVER_TYPE  TMC2208_STANDALONE
-    #define Z_DRIVER_TYPE  A4988
+    #define X_DRIVER_TYPE  TMC2208
+    #define Y_DRIVER_TYPE  TMC2208
+    #define Z_DRIVER_TYPE  TMC2208
     //#define X2_DRIVER_TYPE A4988
     //#define Y2_DRIVER_TYPE A4988
     //#define Z2_DRIVER_TYPE A4988
     //#define Z3_DRIVER_TYPE A4988
     //#define Z4_DRIVER_TYPE A4988
-    #define E0_DRIVER_TYPE A4988
+    #define E0_DRIVER_TYPE TMC2208
     //#define E1_DRIVER_TYPE A4988
     //#define E2_DRIVER_TYPE A4988
     //#define E3_DRIVER_TYPE A4988
@@ -875,7 +875,7 @@
 
 #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415 }
+    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 436 }
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
@@ -1016,8 +1016,8 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-#define PROBE_MANUALLY
-#define MANUAL_PROBE_START_Z 0.2
+//#define PROBE_MANUALLY
+//#define MANUAL_PROBE_START_Z 0.2
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
@@ -1040,7 +1040,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
 
 /**
  * Touch-MI Probe by hotends.fr
@@ -1112,11 +1112,11 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.415 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define MIN_PROBE_EDGE 10
+#define MIN_PROBE_EDGE 5
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 10500
@@ -1154,18 +1154,18 @@
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
 #define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
+#define Z_CLEARANCE_BETWEEN_PROBES  2 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     2 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -20
-#define Z_PROBE_OFFSET_RANGE_MAX 20
+#define Z_PROBE_OFFSET_RANGE_MIN -3
+#define Z_PROBE_OFFSET_RANGE_MAX 3
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1216,12 +1216,12 @@
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
     #define INVERT_X_DIR true
     #define INVERT_Y_DIR true
-    #define INVERT_Z_DIR false
+    #define INVERT_Z_DIR true
 
     // @section extruder
 
     // For direct drive extruder v9 set to true, for geared extruder set to false.
-    #define INVERT_E0_DIR false
+    #define INVERT_E0_DIR true
     #define INVERT_E1_DIR false
     #define INVERT_E2_DIR false
     #define INVERT_E3_DIR false
@@ -1292,7 +1292,7 @@
     // @section machine
 
     // The size of the print bed
-    #define X_BED_SIZE 225
+    #define X_BED_SIZE 230
     #define Y_BED_SIZE 225
 
     // Travel limits (mm) after homing, corresponding to endstop positions.
@@ -1375,7 +1375,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
+  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
 #endif
 
 /**
@@ -1450,15 +1450,15 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+//#define MESH_BED_LEVELING
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+#define RESTORE_LEVELING_AFTER_G28
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.
@@ -1497,7 +1497,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3
+  #define GRID_MAX_POINTS_X 5
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -1557,16 +1557,16 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
+#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  #define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-//#define LEVEL_BED_CORNERS
+#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 15, 15, 15, 15 } // (mm) Left, Front, Right, Back insets
@@ -2472,14 +2472,14 @@
 #endif
 
 // Support for Adafruit Neopixel LED driver
-//#define NEOPIXEL_LED
+#define NEOPIXEL_LED
 #if ENABLED(NEOPIXEL_LED)
-  #define NEOPIXEL_TYPE   NEO_GRBW // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
+  #define NEOPIXEL_TYPE   NEO_GRB // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
   #define NEOPIXEL_PIN     NEO_PIXEL_1       // LED driving pin
   //#define NEOPIXEL2_TYPE NEOPIXEL_TYPE
   //#define NEOPIXEL2_PIN    NEO_PIXEL_2
-  #define NEOPIXEL_PIXELS 30       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
-  #define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
+  #define NEOPIXEL_PIXELS 29       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
+  //#define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
   #define NEOPIXEL_BRIGHTNESS 127  // Initial brightness (0-255)
   //#define NEOPIXEL_STARTUP_TEST  // Cycle through colors at startup
 
