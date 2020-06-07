@@ -947,7 +947,7 @@
 
 #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 443 }
+    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 461 }
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
