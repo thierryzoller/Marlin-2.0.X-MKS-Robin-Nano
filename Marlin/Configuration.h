@@ -58,7 +58,7 @@
 //===========================================================================
 
 // Core XY
-//#define SAPPHIRE_PRO
+#define SAPPHIRE_PRO
 //#define SAPPHIRE_PLUS
 
 //Cartesian
@@ -549,7 +549,7 @@
 
 #if ENABLED(PIDTEMP)
   #define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  //#define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -557,9 +557,12 @@
 
   #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
-    #define DEFAULT_Kp 14.21
-    #define DEFAULT_Ki 0.88
-    #define DEFAULT_Kd 57.26
+    
+	#define DEFAULT_Kp 9.14
+    #define DEFAULT_Ki 0.44
+    #define DEFAULT_Kd 48.00
+	
+	
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     #define DEFAULT_Kp 15.30
@@ -620,6 +623,7 @@
     #define DEFAULT_bedKp 21.37
     #define DEFAULT_bedKi 3.29
     #define DEFAULT_bedKd 92.53
+
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     #define DEFAULT_bedKp 45.0
@@ -943,7 +947,7 @@
 
 #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415 }
+    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 443 }
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
@@ -964,7 +968,8 @@
 
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
     //Sapphire Pro
-    #define DEFAULT_MAX_FEEDRATE          { 300, 300, 10, 50 }
+    #define DEFAULT_MAX_FEEDRATE          { 300, 300, 10, 75 }
+	// Was 50
   #elif ENABLED(BLUER)
     //Bluer
     #define DEFAULT_MAX_FEEDRATE          { 250, 250, 10, 50 }
@@ -1002,8 +1007,10 @@
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
   #define DEFAULT_ACCELERATION          1000    // X, Y, Z and E acceleration for printing moves
-  #define DEFAULT_RETRACT_ACCELERATION  2000    // E acceleration for retracts
-  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_RETRACT_ACCELERATION  1500    // E acceleration for retracts
+  /* Was 2000*/
+  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
+  /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
   #define DEFAULT_ACCELERATION          750    // X, Y, Z and E acceleration for printing moves
@@ -1037,7 +1044,8 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    2  // May be used by Linear Advance
+/* Was 2*/
+#define DEFAULT_EJERK    1.5  // May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -1047,7 +1055,8 @@
  *   http://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.050 // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM 0.025 // (mm) Distance from real junction edge
+  /* Was 0.05*/
 #endif
 
 /**
