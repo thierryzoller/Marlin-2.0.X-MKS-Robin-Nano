@@ -36,7 +36,7 @@
  * Advanced settings can be found in Configuration_adv.h
  *
  */
-#define CONFIGURATION_H_VERSION 020005
+#define CONFIGURATION_H_VERSION 020006
 
 //===========================================================================
 //============================= Getting Started =============================
@@ -53,6 +53,7 @@
  * https://sites.google.com/site/repraplogphase/calibration-of-your-reprap
  * http://www.thingiverse.com/thing:298812
  */
+
 //===========================================================================
 //============================= 3D Printer Preset ===========================
 //===========================================================================
@@ -68,45 +69,81 @@
 //============================= Advanced presets ============================
 //===========================================================================
 
-/**
-* Probe Settings
-*/
+// Probe Settings
 
-//#define BL_TOUCH               // Enable BLTouch Settings
 
-#if ENABLED (BL_TOUCH)
+//#define BL_TOUCH                 // Enable BLTouch Settings
+#if ENABLED(BL_TOUCH)
   //#define LOW_RES                  // 3x3 Grid 
-  #define HI_RES                   // 5x5 Grid
-  //#define BL_TOUCH_HIGH_SPEED    // Probe Pin does not pull in when moving in XY. Use at your own risk!
+  //#define HI_RES                   // 5x5 Grid
+  //#define BL_TOUCH_HIGH_SPEED      // Probe Pin does not pull in when moving in XY. Use at your own risk!
+#endif
   
-  // Specify a Probe Offsetposition { X, Y, Z }
-  #define OFFSET_X 0              // - Left   |   Right +
-  #define OFFSET_Y 0              // - Front  |   Back +
-  #define OFFSET_Z 0              // - Nozzle ist Higher as the Probe 0 Point |  + Really? you did somthing wrong.
+
+// Specify a Probe Offsetposition { X, Y, Z }
+#define OFFSET_X 0              // - Left   |   Right +
+#define OFFSET_Y 0              // - Front  |   Back +
+#define OFFSET_Z 0              // - Nozzle ist Higher as the Probe 0 Point |  + Really? you did somthing wrong.
+
+
+// Motion Control Settings
+// New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
+//#define MOTION_NEW
+// Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
+#define MOTION_CLASSIC
+
+
+// Linear Pressure Control
+//Use at your own risk! It can cause extruder errors...
+ 
+//#define LINEAR_PRESSURE_CONTROL
+#if ENABLED(LINEAR_PRESSURE_CONTROL)
+  #define LINEAR_PRESSURE_CONTROL_VALUE   0
 #endif
 
-/**
-* Motion Control Settings
-*/
+// Hotend Fan Auto ON
+// Use Hotend 2 pins to control Hotend fan
+//#define HOTEND_AUTO_FAN
 
-// New Motion Control (Default Recommended)  - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
-#define MOTION_NEW
+// Optical Endstops
+//#define OPTICAL_ENDSTOPS_XY
+//#define OPTICAL_ENDSTOP_Z
 
-// Classic Motion Control                    - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
-//#define MOTION_CLASSIC
-
-/**
- * Linear Pressure Control
- * 
- * Use at your own risk! It can cause extruder errors...
- */  
-
-//#define Linear_Pressure_Control
-
-#if ENABLED (Linear_Pressure_Control)
-  #define Linear_Pressure_Control_Value   0
+// Custom Stepper Motor Drivers
+// Here you can change the Stepper Motor Drivers if they differ from the delivery state or if you have changed them...
+// If your printer is still without changes, it is not necessary to activate the function...
+// A4988 is assumed for unspecified drivers.
+// Options: A4988, A5984, DRV8825, LV8729, L6470, L6474, POWERSTEP01,
+//          TB6560, TB6600, TMC2100,
+//          TMC2130, TMC2130_STANDALONE, TMC2160, TMC2160_STANDALONE,
+//          TMC2208, TMC2208_STANDALONE, TMC2209, TMC2209_STANDALONE,
+//          TMC26X,  TMC26X_STANDALONE,  TMC2660, TMC2660_STANDALONE,
+//          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
+//#define Custom_Stepper_Drivers
+#if ENABLED(Custom_Stepper_Drivers)
+  #define DRIVER_X TMC2209_STANDALONE
+  #define DRIVER_Y TMC2209_STANDALONE
+  #define DRIVER_Z TMC2209_STANDALONE
+  #define DRIVER_E0 TMC2209_STANDALONE
+  //#define DRIVER_E1 TMC2209_STANDALONE
+  //#define DRIVER_Z2 TMC2209_STANDALONE
 #endif
 
+//===========================================================================
+//============================= Display language selection===================
+//===========================================================================
+
+/**
+ * LCD LANGUAGE
+ *
+ * Select the language to display on the LCD. These languages are available:
+ *
+ *   en, an, bg, ca, cz, da, de, el, el_gr, es, eu, fi, fr, gl, hr, hu, it,
+ *   jp_kana, ko_KR, nl, pl, pt, pt_br, ru, sk, tr, uk, vi, zh_CN, zh_TW, test
+ *
+ * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek', 'el_gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ru':'Russian', 'sk':'Slovak', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)', 'test':'TEST' }
+ */
+#define LCD_LANGUAGE en
 
 //===========================================================================
 //============================= Display Color Section========================
@@ -158,7 +195,7 @@
 
 // Author info of this build printed to the host during boot and M115
 #define STRING_CONFIG_H_AUTHOR "(le3tspeak, MKS Robin Nano)" // Who made the changes.
-#define CUSTOM_VERSION_FILE Version.h 
+#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
  * *** VENDORS PLEASE READ ***
@@ -171,14 +208,18 @@
  * respectfully request that you retain the unmodified Marlin boot screen.
  */
 
-// Show the Marlin bootscreen on startup. 
+// Show the Marlin bootscreen on startup. ** ENABLE FOR PRODUCTION **
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
 //#define SHOW_CUSTOM_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
-//#define CUSTOM_STATUS_SCREEN_IMAGE
+#if ANY(SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER)
+  #define CUSTOM_STATUS_SCREEN_IMAGE
+#else
+  //#define CUSTOM_STATUS_SCREEN_IMAGE
+#endif
 
 // @section machine
 
@@ -207,20 +248,13 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-  #if ENABLED(SAPPHIRE_PRO)
-    //Sapphire Pro
-    #define BAUDRATE 115200 
-  #elif ENABLED(SAPPHIRE_PLUS)
-    //Sapphire Plus
-    #define BAUDRATE 115200 
-  #elif ENABLED(BLUER)
-    //BLUER
+  #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER)
+    //SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER
     #define BAUDRATE 115200 
   #else
     //No Preset
     #define BAUDRATE 250000
   #endif
-
 
 // Enable the Bluetooth serial interface on AT90USB devices
 //#define BLUETOOTH
@@ -243,7 +277,6 @@
   #else
     //#define CUSTOM_MACHINE_NAME "3D Printer"
   #endif
-
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like http://www.uuidgenerator.net/version4
@@ -570,7 +603,7 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 250
+#define HEATER_0_MAXTEMP 275
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -578,7 +611,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      100
+#define BED_MAXTEMP      125
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -624,9 +657,6 @@
     #define DEFAULT_Kd 114
   #endif
 
-
-
-
 #endif // PIDTEMP
 
 //===========================================================================
@@ -662,7 +692,9 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
-#if ENABLED(SAPPHIRE_PRO)
+ // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
+
+  #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
     #define DEFAULT_bedKp 21.37
     #define DEFAULT_bedKi 3.29
@@ -680,28 +712,17 @@
     #define DEFAULT_bedKd 300.5
   #else
     //No Preset
-    //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
-    //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
     #define DEFAULT_bedKp 10.00
     #define DEFAULT_bedKi .023
     #define DEFAULT_bedKd 305.4
-
-    //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
-    //from pidautotune
-    //#define DEFAULT_bedKp 97.1
-    //#define DEFAULT_bedKi 1.41
-    //#define DEFAULT_bedKd 1675.16
   #endif
-
-  // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
-
 #endif // PIDTEMPBED
 
 #if EITHER(PIDTEMP, PIDTEMPBED)
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
   //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
   //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
-  #define PID_FUNCTIONAL_RANGE 20 // If the temperature difference between the target temperature and the actual temperature
+  #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #endif
 
@@ -772,8 +793,6 @@
     //#define COREZY
   #endif
 
-
-
 //===========================================================================
 //============================== Endstop Settings ===========================
 //===========================================================================
@@ -802,8 +821,6 @@
     //#define USE_ZMAX_PLUG
   #endif
 
-
-
 // Enable pullup for all endstops to prevent a floating state
 #define ENDSTOPPULLUPS
 #if DISABLED(ENDSTOPPULLUPS)
@@ -831,17 +848,25 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-
 #if ANY(SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER)
-    //Sapphire Pro,Plus & Bluer
+  #if ENABLED(OPTICAL_ENDSTOPS_XY)
+    //Sapphire Pro,Plus & Bluer & Optical Endstops
+    #define X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+    #define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+    #define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+    #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+    #define Z_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+    #define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe.
+  #else 
+    //Sapphire Pro,Plus & Bluer & Mechanical Endstops
     #define X_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
-    #define Z_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Y_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Z_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
     #define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe.
-  #else
+  #endif
+#else
     //No Preset
     #define X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -850,9 +875,15 @@
     #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
-  #endif
+#endif
 
-
+#if ENABLED(OPTICAL_ENDSTOP_Z)
+  //Sapphire Pro,Plus & Bluer & Optical Endstops on Z
+  #define Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+#else
+  //No Preset
+  #define Z_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+#endif
 
 /**
  * Stepper Drivers
@@ -870,60 +901,43 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#if ENABLED(SAPPHIRE_PRO)
+#if ENABLED(SAPPHIRE_PRO) && NONE(Custom_Stepper_Drivers)
     //Sapphire Pro
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
     #define Z_DRIVER_TYPE  A4988
-    //#define X2_DRIVER_TYPE A4988
-    //#define Y2_DRIVER_TYPE A4988
     //#define Z2_DRIVER_TYPE A4988
-    //#define Z3_DRIVER_TYPE A4988
-    //#define Z4_DRIVER_TYPE A4988
     #define E0_DRIVER_TYPE A4988
     //#define E1_DRIVER_TYPE A4988
-    //#define E2_DRIVER_TYPE A4988
-    //#define E3_DRIVER_TYPE A4988
-    //#define E4_DRIVER_TYPE A4988
-    //#define E5_DRIVER_TYPE A4988
-    //#define E6_DRIVER_TYPE A4988
-    //#define E7_DRIVER_TYPE A4988
-  #elif ENABLED(SAPPHIRE_PLUS)
+  #elif ENABLED(SAPPHIRE_PLUS) && NONE(Custom_Stepper_Drivers)
     //Sapphire Plus
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
     #define Z_DRIVER_TYPE  A4988
-    //#define X2_DRIVER_TYPE A4988
-    //#define Y2_DRIVER_TYPE A4988
     //#define Z2_DRIVER_TYPE A4988
-    //#define Z3_DRIVER_TYPE A4988
-    //#define Z4_DRIVER_TYPE A4988
     #define E0_DRIVER_TYPE TMC2208_STANDALONE
     //#define E1_DRIVER_TYPE A4988
-    //#define E2_DRIVER_TYPE A4988
-    //#define E3_DRIVER_TYPE A4988
-    //#define E4_DRIVER_TYPE A4988
-    //#define E5_DRIVER_TYPE A4988
-    //#define E6_DRIVER_TYPE A4988
-    //#define E7_DRIVER_TYPE A4988
-  #elif ENABLED(BLUER)
+
+  #elif ENABLED(BLUER) && NONE(Custom_Stepper_Drivers)
     //Bluer
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
     #define Z_DRIVER_TYPE  A4988
-    //#define X2_DRIVER_TYPE A4988
-    //#define Y2_DRIVER_TYPE A4988
     //#define Z2_DRIVER_TYPE A4988
-    //#define Z3_DRIVER_TYPE A4988
-    //#define Z4_DRIVER_TYPE A4988
     #define E0_DRIVER_TYPE A4988
     //#define E1_DRIVER_TYPE A4988
-    //#define E2_DRIVER_TYPE A4988
-    //#define E3_DRIVER_TYPE A4988
-    //#define E4_DRIVER_TYPE A4988
-    //#define E5_DRIVER_TYPE A4988
-    //#define E6_DRIVER_TYPE A4988
-    //#define E7_DRIVER_TYPE A4988
+  #elif ENABLED(Custom_Stepper_Drivers)
+    //Custom_Stepper_Drivers
+    #define X_DRIVER_TYPE  DRIVER_X
+    #define Y_DRIVER_TYPE  DRIVER_Y
+    #define Z_DRIVER_TYPE  DRIVER_Z
+    #define E0_DRIVER_TYPE DRIVER_E0
+    #ifdef DRIVER_Z2
+      #define Z2_DRIVER_TYPE DRIVER_Z2
+    #endif
+    #ifdef DRIVER_E1
+      #define E1_DRIVER_TYPE DRIVER_E1
+    #endif
   #else
     //No Preset
     //#define X_DRIVER_TYPE  A4988
@@ -1003,13 +1017,11 @@
     #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
 #endif
 
-
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
     //Sapphire Pro
     #define DEFAULT_MAX_FEEDRATE          { 300, 300, 10, 75 }
@@ -1033,7 +1045,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 200, 20000}
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1095,8 +1107,7 @@
   #endif
 #endif
 
-/* Was 2*/
-#define DEFAULT_EJERK    1.5  // May be used by Linear Advance
+#define DEFAULT_EJERK    5  // May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -1106,8 +1117,7 @@
  *   http://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.025 // (mm) Distance from real junction edge
-  /* Was 0.05*/
+  #define JUNCTION_DEVIATION_MM 0.019 // (mm) Distance from real junction edge
 #endif
 
 /**
@@ -1175,7 +1185,7 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-#ifdef BL_TOUCH
+#if ENABLED(BL_TOUCH)
   // Adv. Preset BL Touch
   //#define PROBE_MANUALLY
   //#define MANUAL_PROBE_START_Z 0.2
@@ -1206,7 +1216,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#ifdef BL_TOUCH
+#if ENABLED(BL_TOUCH)
   // Adv. Preset BL Touch
   #define BLTOUCH
 #else
@@ -1284,8 +1294,8 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#if ENABLED (BL_TOUCH)
-  // Adv. Preset Probe
+#if ENABLED(BL_TOUCH)
+  // Adv. Preset Probe BL Touch
   #define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
 #else
   // No Preset
@@ -1294,7 +1304,7 @@
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define MIN_PROBE_EDGE 10
+#define PROBING_MARGIN 10
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 10500
@@ -1332,18 +1342,22 @@
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
 #define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  3 // Z Clearance between probe points
+#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -20
-#define Z_PROBE_OFFSET_RANGE_MAX 20
+#define Z_PROBE_OFFSET_RANGE_MIN -3
+#define Z_PROBE_OFFSET_RANGE_MAX 0
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#if ENABLED(BL_TOUCH)
+  #define Z_MIN_PROBE_REPEATABILITY_TEST
+#else
+  //#define Z_MIN_PROBE_REPEATABILITY_TEST
+#endif
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1428,8 +1442,8 @@
   #elif ENABLED(BLUER)
     //Bluer
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-    #define INVERT_X_DIR true
-    #define INVERT_Y_DIR true
+    #define INVERT_X_DIR false
+    #define INVERT_Y_DIR false
     #define INVERT_Z_DIR false
 
     // @section extruder
@@ -1462,8 +1476,6 @@
     #define INVERT_E6_DIR false
     #define INVERT_E7_DIR false
   #endif
-
-
 
 // @section homing
 
@@ -1565,8 +1577,6 @@
     #define Z_MAX_POS 200
   #endif
 
-
-
 /**
  * Software Endstops
  *
@@ -1593,7 +1603,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
+  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
 #endif
 
 /**
@@ -1686,7 +1696,7 @@
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-#define RESTORE_LEVELING_AFTER_G28
+//#define RESTORE_LEVELING_AFTER_G28
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.
@@ -1849,13 +1859,8 @@
 #endif
 
 // Homing speeds (mm/m)
-#if ANY(SAPPHIRE_PRO, SAPPHIRE_PLUS)
-  #define HOMING_FEEDRATE_XY (50*60)
-  #define HOMING_FEEDRATE_Z  (5*60)
-#elif ENABLED(BLUER)
-  #define HOMING_FEEDRATE_XY (30*60)
-  #define HOMING_FEEDRATE_Z  (4*60)
-#endif
+#define HOMING_FEEDRATE_XY (50*60)
+#define HOMING_FEEDRATE_Z  (5*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -1937,7 +1942,7 @@
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
- //#define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
+  //#define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
 #endif
 
 //
@@ -1970,7 +1975,7 @@
 
 #define PREHEAT_2_LABEL       "PETG"
 #define PREHEAT_2_TEMP_HOTEND 235
-#define PREHEAT_2_TEMP_BED    80
+#define PREHEAT_2_TEMP_BED    70
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 /**
@@ -2098,18 +2103,6 @@
 //=============================================================================
 
 // @section lcd
-
-/**
- * LCD LANGUAGE
- *
- * Select the language to display on the LCD. These languages are available:
- *
- *   en, an, bg, ca, cz, da, de, el, el_gr, es, eu, fi, fr, gl, hr, hu, it,
- *   jp_kana, ko_KR, nl, pl, pt, pt_br, ru, sk, tr, uk, vi, zh_CN, zh_TW, test
- *
- * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek', 'el_gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ru':'Russian', 'sk':'Slovak', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)', 'test':'TEST' }
- */
-#define LCD_LANGUAGE en
 
 /**
  * LCD Character Set
@@ -2587,15 +2580,7 @@
 //
 // FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
 //
-#if ANY(SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER)
-    //Sapphire Pro & Plus
-    #define SAPPHIRE_GRAPHICAL_TFT
-  #else
-    //No Preset
-    //#define FSMC_GRAPHICAL_TFT
-  #endif
-
-
+#define FSMC_GRAPHICAL_TFT
 
 //=============================================================================
 //============================  Other Controllers  ============================
@@ -2604,30 +2589,15 @@
 //
 // ADS7843/XPT2046 ADC Touchscreen such as ILI9341 2.8
 //
-#if ANY(SAPPHIRE_PRO, SAPPHIRE_PLUS, BLUER)
-    //Sapphire Pro & Plus
-    #define TOUCH_BUTTONS
-    #if ENABLED(TOUCH_BUTTONS)
-    #define BUTTON_DELAY_EDIT  100 // (ms) Button repeat delay for edit screens
-    #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
+#define TOUCH_BUTTONS
+#if ENABLED(TOUCH_BUTTONS)
+  #define BUTTON_DELAY_EDIT  75 // (ms) Button repeat delay for edit screens
+  #define BUTTON_DELAY_MENU 200 // (ms) Button repeat delay for menus
 
     #define XPT2046_X_CALIBRATION    12013
     #define XPT2046_X_OFFSET           -32
     #define XPT2046_Y_CALIBRATION    -8711
     #define XPT2046_Y_OFFSET           256
-    #endif
-  #else
-    //No Preset
-    //#define TOUCH_BUTTONS
-    #if ENABLED(TOUCH_BUTTONS)
-    #define BUTTON_DELAY_EDIT 100 // (ms) Button repeat delay for edit screens
-    #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
-
-    #define XPT2046_X_CALIBRATION   12316
-    #define XPT2046_Y_CALIBRATION  -8981
-    #define XPT2046_X_OFFSET       -43
-    #define XPT2046_Y_OFFSET        257
-    #endif
 #endif
 
 //
@@ -2720,12 +2690,12 @@
 //#define NEOPIXEL_LED
 #if ENABLED(NEOPIXEL_LED)
   #define NEOPIXEL_TYPE   NEO_GRBW // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
-  #define NEOPIXEL_PIN     NEO_PIXEL_1       // LED driving pin
+  #define NEOPIXEL_PIN    NEO_PIXEL_1       // LED driving pin
   //#define NEOPIXEL2_TYPE NEOPIXEL_TYPE
   //#define NEOPIXEL2_PIN    NEO_PIXEL_2
   #define NEOPIXEL_PIXELS 30       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
   #define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
-  #define NEOPIXEL_BRIGHTNESS 127  // Initial brightness (0-255)
+  #define NEOPIXEL_BRIGHTNESS 255  // Initial brightness (0-255)
   //#define NEOPIXEL_STARTUP_TEST  // Cycle through colors at startup
 
   // Use a single Neopixel LED for static (background) lighting
@@ -2745,7 +2715,7 @@
  *  - Turn off after the print has finished and the user has pushed a button
  */
 #if ANY(BLINKM, RGB_LED, RGBW_LED, PCA9632, PCA9533, NEOPIXEL_LED)
-  //#define PRINTER_EVENT_LEDS
+  #define PRINTER_EVENT_LEDS
 #endif
 
 /**
