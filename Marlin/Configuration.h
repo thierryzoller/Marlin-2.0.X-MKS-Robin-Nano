@@ -76,7 +76,8 @@
 #if ENABLED(BL_TOUCH)
   //#define LOW_RES                  // 3x3 Grid 
   //#define HI_RES                   // 5x5 Grid
-  //#define BL_TOUCH_HIGH_SPEED      // Probe Pin does not pull in when moving in XY. Use at your own risk!
+  //#define MAX_RES                  // 7x7 Grid
+  //#define BL_TOUCH_HIGH_SPEED      // Only for BLTouch 3.0 and 3.1 Probe Pin does not pull in when moving in XY. Use at your own risk!
 #endif
   
 
@@ -127,12 +128,27 @@
   #define DRIVER_E0 TMC2209_STANDALONE
   //#define DRIVER_E1 TMC2209_STANDALONE
   //#define DRIVER_Z2 TMC2209_STANDALONE
+
+  //#define INVERT_X
+  //#define INVERT_Y
+  #define INVERT_Z 
+  #define INVERT_E0 
+  //#define INVERT_Z2
+  //#define INVERT_E1
 #endif
+
+// Custom Axis Steps Per MM
+// If you have calibrated the extruder before, you can enter the steps here, also be specified individually for the other axes.
+
+//#define STEPS_X         0  // Normally no change needed...
+//#define STEPS_Y         0  // Normally no change needed...
+//#define STEPS_Z         0  // Normally no change needed...
+//#define STEPS_E0        0
+
 
 //===========================================================================
 //============================= Display language selection===================
 //===========================================================================
-
 /**
  * LCD LANGUAGE
  *
@@ -140,10 +156,13 @@
  *
  *   en, an, bg, ca, cz, da, de, el, el_gr, es, eu, fi, fr, gl, hr, hu, it,
  *   jp_kana, ko_KR, nl, pl, pt, pt_br, ru, sk, tr, uk, vi, zh_CN, zh_TW, test
- *
+ * 
  * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek', 'el_gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ru':'Russian', 'sk':'Slovak', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)', 'test':'TEST' }
  */
+
 #define LCD_LANGUAGE en
+//#define RU_EXTENSION // Only activate with Russian language | Активировать только с русским языком
+
 
 //===========================================================================
 //============================= Display Color Section========================
@@ -1003,19 +1022,65 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 
-#if ENABLED(SAPPHIRE_PRO)
+#if ENABLED(SAPPHIRE_PRO) 
     //Sapphire Pro
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 461 }
+    #ifndef STEPS_X
+      #define STEPS_X     80
+    #endif
+    #ifndef STEPS_Y
+      #define STEPS_Y     80
+    #endif
+    #ifndef STEPS_Z
+      #define STEPS_Z     1600
+    #endif
+    #ifndef STEPS_E0
+      #define STEPS_E0    461
+    #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
+    #ifndef STEPS_X
+      #define STEPS_X     80
+    #endif
+    #ifndef STEPS_Y
+      #define STEPS_Y     80
+    #endif
+    #ifndef STEPS_Z
+      #define STEPS_Z     400
+    #endif
+    #ifndef STEPS_E0
+      #define STEPS_E0    415
+    #endif
   #elif ENABLED(BLUER)
     //Bluer
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 90 }
-  #else
+    #ifndef STEPS_X
+      #define STEPS_X     80
+    #endif
+    #ifndef STEPS_Y
+      #define STEPS_Y     80
+    #endif
+    #ifndef STEPS_Z
+      #define STEPS_Z     400
+    #endif
+    #ifndef STEPS_E0
+      #define STEPS_E0    90
+    #endif
+ #else
     //No Preset
-    #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
+    #ifndef STEPS_X
+      #define STEPS_X     80
+    #endif
+    #ifndef STEPS_Y
+      #define STEPS_Y     80
+    #endif
+    #ifndef STEPS_Z
+      #define STEPS_Z     4000
+    #endif
+    #ifndef STEPS_E0
+      #define STEPS_E0    500
+    #endif
 #endif
+
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { STEPS_X, STEPS_Y, STEPS_Z, STEPS_E0 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1406,15 +1471,47 @@
 #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-    #define INVERT_X_DIR true
-    #define INVERT_Y_DIR true
-    #define INVERT_Z_DIR false
+    #if ENABLED(INVERT_X)
+      #define INVERT_X_DIR false
+    #else
+      #define INVERT_X_DIR true
+    #endif
 
+        #if ENABLED(INVERT_Y)
+      #define INVERT_Y_DIR false
+    #else
+      #define INVERT_Y_DIR true
+    #endif
+
+    #if ENABLED(INVERT_Z)
+      #define INVERT_Z_DIR true
+    #else
+      #define INVERT_Z_DIR false
+    #endif
+
+    #if ENABLED(INVERT_Z2)
+      #define INVERT_Z2_DIR true
+    #else
+      #define INVERT_Z2_DIR false
+    #endif
+
+    
     // @section extruder
 
     // For direct drive extruder v9 set to true, for geared extruder set to false.
-    #define INVERT_E0_DIR false
-    #define INVERT_E1_DIR false
+
+    #if ENABLED(INVERT_E0)
+      #define INVERT_E0_DIR true
+    #else
+      #define INVERT_E0_DIR false
+    #endif
+    
+    #if ENABLED(INVERT_E1)
+      #define INVERT_E0_DIR true
+    #else
+      #define INVERT_E1_DIR false
+    #endif
+
     #define INVERT_E2_DIR false
     #define INVERT_E3_DIR false
     #define INVERT_E4_DIR false
@@ -1424,15 +1521,43 @@
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-    #define INVERT_X_DIR true
-    #define INVERT_Y_DIR true
-    #define INVERT_Z_DIR false
+    #if ENABLED(INVERT_X)
+      #define INVERT_X_DIR false
+    #else
+      #define INVERT_X_DIR true
+    #endif
+
+        #if ENABLED(INVERT_Y)
+      #define INVERT_Y_DIR false
+    #else
+      #define INVERT_Y_DIR true
+    #endif
+
+    #if ENABLED(INVERT_Z)
+      #define INVERT_Z_DIR true
+    #else
+      #define INVERT_Z_DIR false
+    #endif
+    #if ENABLED(INVERT_Z2)
+      #define INVERT_Z2_DIR true
+    #else
+      #define INVERT_Z2_DIR false
+    #endif
 
     // @section extruder
 
     // For direct drive extruder v9 set to true, for geared extruder set to false.
-    #define INVERT_E0_DIR true
-    #define INVERT_E1_DIR false
+    #if ENABLED(INVERT_E0)
+      #define INVERT_E0_DIR true
+    #else
+      #define INVERT_E0_DIR false
+    #endif
+    #if ENABLED(INVERT_E1)
+      #define INVERT_E0_DIR true
+    #else
+      #define INVERT_E1_DIR false
+    #endif
+
     #define INVERT_E2_DIR false
     #define INVERT_E3_DIR false
     #define INVERT_E4_DIR false
@@ -1442,9 +1567,23 @@
   #elif ENABLED(BLUER)
     //Bluer
     // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-    #define INVERT_X_DIR false
-    #define INVERT_Y_DIR false
-    #define INVERT_Z_DIR false
+    #if ENABLED(INVERT_X)
+      #define INVERT_X_DIR true
+    #else
+      #define INVERT_X_DIR false
+    #endif
+
+        #if ENABLED(INVERT_Y)
+      #define INVERT_Y_DIR true
+    #else
+      #define INVERT_Y_DIR false
+    #endif
+
+    #if ENABLED(INVERT_Z)
+      #define INVERT_Z_DIR true
+    #else
+      #define INVERT_Z_DIR false
+    #endif
 
     // @section extruder
 
@@ -1740,6 +1879,9 @@
     #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
   #elif ENABLED (HI_RES)
     #define GRID_MAX_POINTS_X 5
+    #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+  #elif ENABLED (MAX_RES)
+    #define GRID_MAX_POINTS_X 7
     #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
   #else
     #define GRID_MAX_POINTS_X 3
@@ -2106,27 +2248,19 @@
 
 /**
  * LCD Character Set
- *
- * Note: This option is NOT applicable to Graphical Displays.
- *
- * All character-based LCDs provide ASCII plus one of these
- * language extensions:
- *
+ * 
  *  - JAPANESE ... the most common
  *  - WESTERN  ... with more accented characters
  *  - CYRILLIC ... for the Russian language
- *
- * To determine the language extension installed on your controller:
- *
- *  - Compile and upload with LCD_LANGUAGE set to 'test'
- *  - Click the controller to view the LCD menu
- *  - The LCD will display Japanese, Western, or Cyrillic text
- *
- * See https://marlinfw.org/docs/development/lcd_language.html
- *
+ * 
  * :['JAPANESE', 'WESTERN', 'CYRILLIC']
  */
-#define DISPLAY_CHARSET_HD44780 JAPANESE
+#ifdef RU_EXTENSION
+  #define DISPLAY_CHARSET_HD44780 CYRILLIC
+  #define LCD_LANGUAGE_2 en
+#else
+  #define DISPLAY_CHARSET_HD44780 JAPANESE
+#endif
 
 /**
  * Info Screen Style (0:Classic, 1:Prusa)
