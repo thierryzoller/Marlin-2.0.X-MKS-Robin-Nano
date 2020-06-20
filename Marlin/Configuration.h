@@ -654,9 +654,9 @@
   #if ENABLED(SAPPHIRE_PRO)
     //Sapphire Pro
     
-	#define DEFAULT_Kp 9.14
-    #define DEFAULT_Ki 0.44
-    #define DEFAULT_Kd 48.00
+#define DEFAULT_Kp 8.63
+#define DEFAULT_Ki 0.40
+#define DEFAULT_Kd 46.87
 	
 	
   #elif ENABLED(SAPPHIRE_PLUS)
@@ -1160,8 +1160,8 @@
 #endif
 
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 15.0
-  #define DEFAULT_YJERK 15.0
+  #define DEFAULT_XJERK 10.0
+  #define DEFAULT_YJERK 10.0
   #define DEFAULT_ZJERK  0.3
 
   //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
@@ -1198,7 +1198,7 @@
   #define S_CURVE_ACCELERATION
 #else
   // No Preset Classic Motion
-  //#define S_CURVE_ACCELERATION
+  #define S_CURVE_ACCELERATION
 #endif
 
 //===========================================================================
