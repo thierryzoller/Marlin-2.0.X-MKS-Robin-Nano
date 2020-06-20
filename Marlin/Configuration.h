@@ -90,6 +90,8 @@
 // Motion Control Settings
 // New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
 //#define MOTION_NEW
+//#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
+
 // Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
 #define MOTION_CLASSIC
 
@@ -120,8 +122,8 @@
 //          TMC2208, TMC2208_STANDALONE, TMC2209, TMC2209_STANDALONE,
 //          TMC26X,  TMC26X_STANDALONE,  TMC2660, TMC2660_STANDALONE,
 //          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
-//#define Custom_Stepper_Drivers
-#if ENABLED(Custom_Stepper_Drivers)
+//#define CUSTOM_STEPPER_DRIVERS
+#if ENABLED(CUSTOM_STEPPER_DRIVERS)
   #define DRIVER_X TMC2209_STANDALONE
   #define DRIVER_Y TMC2209_STANDALONE
   #define DRIVER_Z TMC2209_STANDALONE
@@ -145,6 +147,32 @@
 //#define STEPS_Z         0  // Normally no change needed...
 //#define STEPS_E0        0
 
+// Custom Bed Size
+// If you have a different size of a print bed, enter it here
+//#define CUSTOM_BED_SIZE
+#if ENABLED(CUSTOM_BED_SIZE)
+  #define X_BED_SIZE_CUSTOM 200
+  #define Y_BED_SIZE_CUSTOM 200
+  #define Z_BED_SIZE_CUSTOM 200
+#endif
+
+// Custom PID & TEMP SENSOR Settings  
+// Normally no change necessary, unless it does not maintain the set temperature + -1 °
+//#define CUSTOM_HOTEND_PID // HOTEND
+  #if ENABLED(CUSTOM_HOTEND_PID)
+    #define CUSTOM_Kp 1
+    #define CUSTOM_Ki 1
+    #define CUSTOM_Kd 1
+  #endif
+
+//#define CUSTOM_BED_PID    // HEATED BED
+  #if ENABLED(CUSTOM_BED_PID)
+    #define CUSTOM_BED_Kp 1
+    #define CUSTOM_BED_Ki 1
+    #define CUSTOM_BED_Kd 1
+  #endif
+
+//#define CUSTOM_TEMP_SENSOR_0 5  // 5 : 100K thermistor - ATC Semitec 104GT-2/104NT-4-R025H42G (Used in ParCan, J-Head, and E3D) (4.7k pullup)
 
 //===========================================================================
 //============================= Display language selection===================
@@ -195,6 +223,12 @@
 #define COLOR_CUSTOM_3 0xFFFF // ARROWS
 #define COLOR_CUSTOM_4 0xFFFF // OK/MENU
 #endif
+
+
+//===========================================================================
+//============ From here, no more settings need to be changed ===============
+//===========================================================================
+
 
 //===========================================================================
 //============================= DELTA Printer ===============================
@@ -578,6 +612,12 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
+#if ENABLED (CUSTOM_TEMP_SENSOR_0)
+  #define TEMP_SENSOR_0 CUSTOM_TEMP_SENSOR_0
+#else
+  #define TEMP_SENSOR_0 1
+#endif
+
 #define TEMP_SENSOR_0 1
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
@@ -651,24 +691,28 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-  #if ENABLED(SAPPHIRE_PRO)
+  #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Pro
     
 #define DEFAULT_Kp 8.63
 #define DEFAULT_Ki 0.40
 #define DEFAULT_Kd 46.87
 	
-	
-  #elif ENABLED(SAPPHIRE_PLUS)
+  #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Plus
     #define DEFAULT_Kp 15.30
     #define DEFAULT_Ki 0.85
     #define DEFAULT_Kd 56.55
-  #elif ENABLED(BLUER)
+  #elif ENABLED(BLUER) && NONE(CUSTOM_HOTEND_PID) 
     //Bluer
     #define DEFAULT_Kp 8.4
     #define DEFAULT_Ki 0.4
     #define DEFAULT_Kd 44.0
+  #elif ENABLED(CUSTOM_HOTEND_PID)
+    //Custom PID
+    #define DEFAULT_Kp CUSTOM_Kp
+    #define DEFAULT_Ki CUSTOM_Ki
+    #define DEFAULT_Kd CUSTOM_Kd
   #else
     //No Preset
     #define DEFAULT_Kp 22.2
@@ -713,22 +757,26 @@
 
  // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 
-  #if ENABLED(SAPPHIRE_PRO)
+  #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_BED_PID) 
     //Sapphire Pro
     #define DEFAULT_bedKp 21.37
     #define DEFAULT_bedKi 3.29
     #define DEFAULT_bedKd 92.53
 
-  #elif ENABLED(SAPPHIRE_PLUS)
+  #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_BED_PID) 
     //Sapphire Plus
     #define DEFAULT_bedKp 45.0
     #define DEFAULT_bedKi 7.9
     #define DEFAULT_bedKd 150
-  #elif ENABLED(BLUER)
+  #elif ENABLED(BLUER) && NONE(CUSTOM_BED_PID) 
     //Bluer
     #define DEFAULT_bedKp 10.34
     #define DEFAULT_bedKi 0.25
     #define DEFAULT_bedKd 300.5
+  #elif ENABLED(CUSTOM_BED_PID)
+    #define DEFAULT_bedKp CUSTOM_BED_Kp 
+    #define DEFAULT_bedKi CUSTOM_BED_Ki 
+    #define DEFAULT_bedKd CUSTOM_BED_Kd 
   #else
     //No Preset
     #define DEFAULT_bedKp 10.00
@@ -889,7 +937,6 @@
     //No Preset
     #define X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-    #define Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
     #define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -920,7 +967,7 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#if ENABLED(SAPPHIRE_PRO) && NONE(Custom_Stepper_Drivers)
+#if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_STEPPER_DRIVERS)
     //Sapphire Pro
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
@@ -928,7 +975,7 @@
     //#define Z2_DRIVER_TYPE A4988
     #define E0_DRIVER_TYPE A4988
     //#define E1_DRIVER_TYPE A4988
-  #elif ENABLED(SAPPHIRE_PLUS) && NONE(Custom_Stepper_Drivers)
+  #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_STEPPER_DRIVERS)
     //Sapphire Plus
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
@@ -937,7 +984,7 @@
     #define E0_DRIVER_TYPE TMC2208_STANDALONE
     //#define E1_DRIVER_TYPE A4988
 
-  #elif ENABLED(BLUER) && NONE(Custom_Stepper_Drivers)
+  #elif ENABLED(BLUER) && NONE(CUSTOM_STEPPER_DRIVERS)
     //Bluer
     #define X_DRIVER_TYPE  TMC2208_STANDALONE
     #define Y_DRIVER_TYPE  TMC2208_STANDALONE
@@ -945,7 +992,7 @@
     //#define Z2_DRIVER_TYPE A4988
     #define E0_DRIVER_TYPE A4988
     //#define E1_DRIVER_TYPE A4988
-  #elif ENABLED(Custom_Stepper_Drivers)
+  #elif ENABLED(CUSTOM_STEPPER_DRIVERS)
     //Custom_Stepper_Drivers
     #define X_DRIVER_TYPE  DRIVER_X
     #define Y_DRIVER_TYPE  DRIVER_Y
@@ -1183,6 +1230,11 @@
  */
 #if DISABLED(CLASSIC_JERK)
   #define JUNCTION_DEVIATION_MM 0.019 // (mm) Distance from real junction edge
+
+  #if ENABLED(MOTION_NEW_JD) 
+  #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
+                                      // for small segments (< 1mm) with large junction angles (> 135°).
+  #endif
 #endif
 
 /**
@@ -1639,16 +1691,29 @@
     // @section machine
 
     // The size of the print bed
-    #define X_BED_SIZE 225
-    #define Y_BED_SIZE 225
+    #if ENABLED(CUSTOM_BED_SIZE)
+      #define X_BED_SIZE X_BED_SIZE_CUSTOM
+      #define Y_BED_SIZE Y_BED_SIZE_CUSTOM
 
-    // Travel limits (mm) after homing, corresponding to endstop positions.
-    #define X_MIN_POS 0
-    #define Y_MIN_POS 0
-    #define Z_MIN_POS 0
-    #define X_MAX_POS X_BED_SIZE
-    #define Y_MAX_POS Y_BED_SIZE
-    #define Z_MAX_POS 230
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE_CUSTOM
+      #define Y_MAX_POS Y_BED_SIZE_CUSTOM
+      #define Z_MAX_POS Z_BED_SIZE_CUSTOM
+    #else
+      #define X_BED_SIZE 225
+      #define Y_BED_SIZE 225
+
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE
+      #define Y_MAX_POS Y_BED_SIZE
+      #define Z_MAX_POS 230
+    #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
     //No Preset
@@ -1661,16 +1726,29 @@
     // @section machine
 
     // The size of the print bed
-    #define X_BED_SIZE 300
-    #define Y_BED_SIZE 300
+    #if ENABLED(CUSTOM_BED_SIZE)
+      #define X_BED_SIZE X_BED_SIZE_CUSTOM
+      #define Y_BED_SIZE Y_BED_SIZE_CUSTOM
 
-    // Travel limits (mm) after homing, corresponding to endstop positions.
-    #define X_MIN_POS 0
-    #define Y_MIN_POS 0
-    #define Z_MIN_POS 0
-    #define X_MAX_POS X_BED_SIZE
-    #define Y_MAX_POS Y_BED_SIZE
-    #define Z_MAX_POS 350
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE_CUSTOM
+      #define Y_MAX_POS Y_BED_SIZE_CUSTOM
+      #define Z_MAX_POS Z_BED_SIZE_CUSTOM
+    #else
+      #define X_BED_SIZE 300
+      #define Y_BED_SIZE 300
+
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE
+      #define Y_MAX_POS Y_BED_SIZE
+      #define Z_MAX_POS 350
+    #endif
   #elif ENABLED(BLUER)
     //Bluer
     //No Preset
@@ -1683,16 +1761,29 @@
     // @section machine
 
     // The size of the print bed
-    #define X_BED_SIZE 235
-    #define Y_BED_SIZE 235
+    #if ENABLED(CUSTOM_BED_SIZE)
+      #define X_BED_SIZE X_BED_SIZE_CUSTOM
+      #define Y_BED_SIZE Y_BED_SIZE_CUSTOM
 
-    // Travel limits (mm) after homing, corresponding to endstop positions.
-    #define X_MIN_POS 0
-    #define Y_MIN_POS 0
-    #define Z_MIN_POS 0
-    #define X_MAX_POS X_BED_SIZE
-    #define Y_MAX_POS Y_BED_SIZE
-    #define Z_MAX_POS 280
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE_CUSTOM
+      #define Y_MAX_POS Y_BED_SIZE_CUSTOM
+      #define Z_MAX_POS Z_BED_SIZE_CUSTOM
+    #else
+      #define X_BED_SIZE 235
+      #define Y_BED_SIZE 235
+
+      // Travel limits (mm) after homing, corresponding to endstop positions.
+      #define X_MIN_POS 0
+      #define Y_MIN_POS 0
+      #define Z_MIN_POS 0
+      #define X_MAX_POS X_BED_SIZE
+      #define Y_MAX_POS Y_BED_SIZE
+      #define Z_MAX_POS 280
+    #endif
   #else
     //No Preset
     // Direction of endstops when homing; 1=MAX, -1=MIN
@@ -1835,7 +1926,7 @@
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+#define RESTORE_LEVELING_AFTER_G28
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.

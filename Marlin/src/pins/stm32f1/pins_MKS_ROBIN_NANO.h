@@ -27,8 +27,6 @@
 
 #ifndef __STM32F1__
   #error "Oops! Select an STM32F1 board in 'Tools > Board.'"
-#elif HOTENDS > 2 || E_STEPPERS > 2
-  #error "MKS Robin nano supports up to 2 hotends / E-steppers. Comment out this line to continue."
 #endif
 
 #define BOARD_INFO_NAME "MKS Robin nano"
@@ -41,9 +39,12 @@
 //
 // EEPROM
 //
-#if NO_EEPROM_SELECTED
-  //#define FLASH_EEPROM_EMULATION
-  #define SDCARD_EEPROM_EMULATION
+//#define SDCARD_EEPROM_EMULATION
+#if EITHER(NO_EEPROM_SELECTED, FLASH_EEPROM_EMULATION) && NONE (SDCARD_EEPROM_EMULATION)
+  #define FLASH_EEPROM_EMULATION
+  #define EEPROM_PAGE_SIZE     (0x800U) // 2KB
+  #define EEPROM_START_ADDRESS (0x8000000UL + (STM32_FLASH_SIZE) * 1024UL - (EEPROM_PAGE_SIZE) * 2UL)
+  #define MARLIN_EEPROM_SIZE   EEPROM_PAGE_SIZE  // 2KB
 #endif
 
 //
@@ -86,7 +87,9 @@
     //#define X_HARDWARE_SERIAL  Serial1
     //#define Y_HARDWARE_SERIAL  Serial1
     //#define Z_HARDWARE_SERIAL  Serial1
+    //#define Z2_HARDWARE_SERIAL Serial1
     //#define E0_HARDWARE_SERIAL Serial1
+    //#define E1_HARDWARE_SERIAL Serial1
 
     //Set *_SERIAL_TX_PIN and *_SERIAL_RX_PIN to match for all drivers on the same PIN to the same Slave Address.
     // | = add jumper
@@ -132,7 +135,9 @@
     //#define X_HARDWARE_SERIAL  Serial1
     //#define Y_HARDWARE_SERIAL  Serial1
     //#define Z_HARDWARE_SERIAL  Serial1
+    //#define Z2_HARDWARE_SERIAL Serial1
     //#define E0_HARDWARE_SERIAL Serial1
+    //#define E1_HARDWARE_SERIAL Serial1
 
     //Set *_SERIAL_TX_PIN and *_SERIAL_RX_PIN to match for all drivers on the same PIN to the same Slave Address.
     #define  X_SLAVE_ADDRESS 0
@@ -157,6 +162,16 @@
 
     #define E0_SERIAL_TX_PIN                  PE5
     #define E0_SERIAL_RX_PIN                  PE5
+
+    #ifdef E1_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
+
+    #ifdef Z2_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
 
     // Reduce baud rate to improve software serial reliability
     #define TMC_BAUD_RATE 19200
@@ -209,20 +224,24 @@
 //
 // Heaters / Fans
 //
-#define HEATER_0_PIN                         PC3   // HEATER1
-#if ENABLED(HOTEND_AUTO_FAN)
-  #define HEATER_1_PIN                       PC3   // HEATER2 now Used by Hotend FAN
+#define HEATER_0_PIN                      PC3
+#define HEATER_BED_PIN                    PA0
+
+#if HOTENDS == 1                                  
+  #ifndef FAN1_PIN
+    #define FAN1_PIN                        PB0
+    #define HEATER_1_PIN                    PC3
+  #endif
 #else
-  #define HEATER_1_PIN                       PB0   // HEATER2
+  #ifndef HEATER_1_PIN
+    #define HEATER_1_PIN                    PB0
+  #endif
 #endif
-#define HEATER_BED_PIN                       PA0   // HOT BED
 
-#define FAN_PIN                              PB1   // FAN
+#define FAN_PIN                           PB1   // FAN
 
-#if ENABLED(HOTEND_AUTO_FAN)
-  #define E0_AUTO_FAN                        PB0   //E0 AUTO FAN
-#endif
-//
+
+
 // Thermocouples
 //
 //#define MAX6675_SS_PIN                    PE5   // TC1 - CS1
@@ -244,8 +263,7 @@
 
 #define SDIO_SUPPORT
 #define SD_DETECT_PIN                       PD12
-
-#define SDIO_CLOCK                          18000000       /* 18 MHz or 4.5MHz */ 
+#define SDIO_CLOCK                          18000000       /* 18 MHz (18000000) or 4.5MHz (450000) */ 
 #define SDIO_READ_RETRIES                   16
 
 //
@@ -272,6 +290,18 @@
   #define WIFI_RX_PIN    PA9
   #define WIFI_IO0_PIN   PC13
   #define WIFI_IO1_PIN   PC7
+#endif
+
+//
+// SPI
+//
+#define ENABLE_SPI2
+#define SPI_FLASH
+#if ENABLED(SPI_FLASH)
+  #define W25QXX_CS_PIN                     PB12
+  #define W25QXX_MOSI_PIN                   PB15
+  #define W25QXX_MISO_PIN                   PB14
+  #define W25QXX_SCK_PIN                    PB13
 #endif
 
 /**

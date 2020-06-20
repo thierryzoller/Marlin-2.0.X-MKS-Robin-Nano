@@ -450,7 +450,7 @@
  * the fan will turn on when any selected extruder is above the threshold.
  */
 #if ENABLED(HOTEND_AUTO_FAN)
-  #define E0_AUTO_FAN_PIN E0_AUTO_FAN
+  #define E0_AUTO_FAN_PIN FAN1_PIN
 #else
   #define E0_AUTO_FAN_PIN -1
 #endif
@@ -2449,7 +2449,7 @@
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
    * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
-  #define MONITOR_DRIVER_STATUS
+  //#define MONITOR_DRIVER_STATUS
 
   #if ENABLED(MONITOR_DRIVER_STATUS)
     #define CURRENT_STEP_DOWN     50  // [mA]
@@ -2532,7 +2532,7 @@
    *
    * Values from 0..1023, -1 to disable homing phase for that axis.
    */
-   #define TMC_HOME_PHASE { 896, 896, 896 }
+   #define TMC_HOME_PHASE { 896, 896, -1 }
 
   /**
    * Beta feature!
