@@ -89,11 +89,11 @@
 
 // Motion Control Settings
 // New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
-#define MOTION_NEW
-#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
+//#define MOTION_NEW
+//#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
 
 // Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
-//#define MOTION_CLASSIC
+#define MOTION_CLASSIC
 
 
 // Linear Pressure Control
