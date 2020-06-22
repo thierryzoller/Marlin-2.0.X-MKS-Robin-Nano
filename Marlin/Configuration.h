@@ -89,11 +89,11 @@
 
 // Motion Control Settings
 // New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
-//#define MOTION_NEW
-//#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
+#define MOTION_NEW
+#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
 
 // Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
-#define MOTION_CLASSIC
+//#define MOTION_CLASSIC
 
 
 // Linear Pressure Control
@@ -247,7 +247,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(le3tspeak, MKS Robin Nano)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(ZOLLER THIERRY)" // Who made the changes.
 #define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
