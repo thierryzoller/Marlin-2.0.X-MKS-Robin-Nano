@@ -70,14 +70,14 @@
 //===========================================================================
 
 // Probe Settings
-
-
 //#define BL_TOUCH                 // Enable BLTouch Settings
 #if ENABLED(BL_TOUCH)
   //#define LOW_RES                  // 3x3 Grid 
   //#define HI_RES                   // 5x5 Grid
   //#define MAX_RES                  // 7x7 Grid
   //#define BL_TOUCH_HIGH_SPEED      // Only for BLTouch 3.0 and 3.1 Probe Pin does not pull in when moving in XY. Use at your own risk!
+  //#define Z_CLEARANCE_BL        5  // Z Clearance between probe points
+  //#define MULTIPLE_PROBING_BL   2  // A total of 2 does fast/slow probes with a weighted average.  A total of 3 or more adds more slow probes, taking the average.
 #endif
   
 
@@ -98,8 +98,7 @@
 
 // Linear Pressure Control
 //Use at your own risk! It can cause extruder errors...
- 
-//#define LINEAR_PRESSURE_CONTROL
+ //#define LINEAR_PRESSURE_CONTROL
 #if ENABLED(LINEAR_PRESSURE_CONTROL)
   #define LINEAR_PRESSURE_CONTROL_VALUE   0
 #endif
@@ -141,7 +140,6 @@
 
 // Custom Axis Steps Per MM
 // If you have calibrated the extruder before, you can enter the steps here, also be specified individually for the other axes.
-
 //#define STEPS_X         0  // Normally no change needed...
 //#define STEPS_Y         0  // Normally no change needed...
 //#define STEPS_Z         0  // Normally no change needed...
@@ -172,7 +170,12 @@
     #define CUSTOM_BED_Kd 1
   #endif
 
-//#define CUSTOM_TEMP_SENSOR_0 5  // 5 : 100K thermistor - ATC Semitec 104GT-2/104NT-4-R025H42G (Used in ParCan, J-Head, and E3D) (4.7k pullup)
+//#define CUSTOM_TEMP_SENSOR
+  #if ENABLED(CUSTOM_TEMP_SENSOR)
+    #define CUSTOM_TEMP_SENSOR_0 5      // 5 : 100K thermistor - ATC Semitec 104GT-2/104NT-4-R025H42G (Used in ParCan, J-Head, and E3D) (4.7k pullup)
+    #define CUSTOM_TEMP_SENSOR_1 5      // 5 : 100K thermistor - ATC Semitec 104GT-2/104NT-4-R025H42G (Used in ParCan, J-Head, and E3D) (4.7k pullup)
+    #define CUSTOM_TEMP_SENSOR_BED 1
+#endif
 
 //===========================================================================
 //============================= Display language selection===================
@@ -222,6 +225,47 @@
 #define COLOR_CUSTOM_2 0xFFFF // CANCEL 
 #define COLOR_CUSTOM_3 0xFFFF // ARROWS
 #define COLOR_CUSTOM_4 0xFFFF // OK/MENU
+#endif
+
+//===========================================================================
+//============================= NEOPIXEL ====================================
+//===========================================================================
+
+/**
+ * Enable support for an NEOPIXEL Strip connected by digital pins.
+ *
+ * Adds the M150 command to set the LED (or LED strip) color.
+ * For Neopixel LED an overall brightness parameter is also available.
+ * 
+ *                            *** CAUTION ***
+ *
+ *  NOTE: A separate 3V/5V power supply is required! The Neopixel LED needs
+ *  more current than the MKS Robin Nano 5V linear regulator can produce.
+ *  Failure to follow this precaution can destroy your Robin Nano!
+ *  
+ *                           *** CAUTION ***
+ */
+
+//#define NEOPIXEL
+#if ENABLED(NEOPIXEL)
+  #define TYPE NEO_GRB        // GRBW / GRB - four/three channel driver type
+  #define PIXELS 29           // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
+  #define BRIGHTNESS 255      // Initial brightness (0-255)
+  //#define STARTUP_TEST      // Cycle through colors at startup
+
+
+  /**
+   * Printer Status LEDs
+   *
+   * During printing, the LEDs will reflect the printer status:
+   *
+   *  - Gradually change from blue to violet as the heated bed gets to target temp
+   *  - Gradually change from violet to red as the hotend gets to temperature
+   *  - Change to white to illuminate work surface
+   *  - Change to green once print has finished
+   *  - Turn off after the print has finished and the user has pushed a button
+   */
+  #define PRINTER_STATUS_LEDS
 #endif
 
 
@@ -612,21 +656,28 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#if ENABLED (CUSTOM_TEMP_SENSOR_0)
+#ifdef CUSTOM_TEMP_SENSOR_0
   #define TEMP_SENSOR_0 CUSTOM_TEMP_SENSOR_0
 #else
   #define TEMP_SENSOR_0 1
 #endif
+#ifdef CUSTOM_TEMP_SENSOR_1
+  #define TEMP_SENSOR_1 CUSTOM_TEMP_SENSOR_1
+#else
+  #define TEMP_SENSOR_1 0
+#endif
+#ifdef CUSTOM_TEMP_SENSOR_BED
+  #define TEMP_SENSOR_BED CUSTOM_TEMP_SENSOR_BED
+#else
+  #define TEMP_SENSOR_BED 1
+#endif
 
-#define TEMP_SENSOR_0 1
-#define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 
@@ -1430,7 +1481,7 @@
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
 
 // Feedrate (mm/m) for the "accurate" probe of each point
-#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 2)
+#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 4)
 
 /**
  * Multiple Probing
@@ -1441,8 +1492,13 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
-//#define EXTRA_PROBING    1
+#ifdef MULTIPLE_PROBING_BL
+  #define MULTIPLE_PROBING MULTIPLE_PROBING_BL
+#else
+  //#define MULTIPLE_PROBING 2
+  //#define EXTRA_PROBING    1
+#endif
+
 
 /**
  * Z probes require clearance when deploying, stowing, and moving between
@@ -1459,8 +1515,16 @@
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
 #define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
+#ifdef Z_CLEARANCE_BL
+  #define Z_CLEARANCE_BETWEEN_PROBES  Z_CLEARANCE_BL // Z Clearance between probe points
+#else
+  #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
+#endif
+#ifdef MULTIPLE_PROBING_BL
+  #define Z_CLEARANCE_MULTI_PROBE     Z_CLEARANCE_BL // Z Clearance between multiple probes
+#else
+  #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
+#endif
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
@@ -1559,7 +1623,7 @@
     #endif
     
     #if ENABLED(INVERT_E1)
-      #define INVERT_E0_DIR true
+      #define INVERT_E1_DIR true
     #else
       #define INVERT_E1_DIR false
     #endif
@@ -1605,7 +1669,7 @@
       #define INVERT_E0_DIR false
     #endif
     #if ENABLED(INVERT_E1)
-      #define INVERT_E0_DIR true
+      #define INVERT_E1_DIR true
     #else
       #define INVERT_E1_DIR false
     #endif
@@ -2912,16 +2976,26 @@
 #endif
 
 // Support for Adafruit Neopixel LED driver
-//#define NEOPIXEL_LED
+#if ENABLED(NEOPIXEL)
+  #define NEOPIXEL_LED
+#else
+  //#define NEOPIXEL_LED
+#endif
+
 #if ENABLED(NEOPIXEL_LED)
-  #define NEOPIXEL_TYPE   NEO_GRBW // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
+  #define NEOPIXEL_TYPE   TYPE // NEO_GRBW / NEO_GRB - four/three channel driver type (defined in Adafruit_NeoPixel.h)
   #define NEOPIXEL_PIN    NEO_PIXEL_1       // LED driving pin
-  //#define NEOPIXEL2_TYPE NEOPIXEL_TYPE
+  //#define NEOPIXEL2_TYPE TYPE
   //#define NEOPIXEL2_PIN    NEO_PIXEL_2
-  #define NEOPIXEL_PIXELS 30       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
-  #define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
-  #define NEOPIXEL_BRIGHTNESS 255  // Initial brightness (0-255)
-  //#define NEOPIXEL_STARTUP_TEST  // Cycle through colors at startup
+  #define NEOPIXEL_PIXELS PIXELS       // Number of LEDs in the strip, larger of 2 strips if 2 neopixel strips are used
+  //#define NEOPIXEL_IS_SEQUENTIAL   // Sequential display for temperature change - LED by LED. Disable to change all LEDs at once.
+  #define NEOPIXEL_BRIGHTNESS BRIGHTNESS  // Initial brightness (0-255)
+
+  #if ENABLED(STARTUP_TEST)
+    #define NEOPIXEL_STARTUP_TEST  // Cycle through colors at startup
+  #else
+    //#define NEOPIXEL_STARTUP_TEST  // Cycle through colors at startup
+  #endif
 
   // Use a single Neopixel LED for static (background) lighting
   //#define NEOPIXEL_BKGD_LED_INDEX  0               // Index of the LED to use
@@ -2939,8 +3013,10 @@
  *  - Change to green once print has finished
  *  - Turn off after the print has finished and the user has pushed a button
  */
-#if ANY(BLINKM, RGB_LED, RGBW_LED, PCA9632, PCA9533, NEOPIXEL_LED)
+#if ENABLED(PRINTER_STATUS_LEDS)
   #define PRINTER_EVENT_LEDS
+#else 
+  //#define PRINTER_EVENT_LEDS
 #endif
 
 /**
