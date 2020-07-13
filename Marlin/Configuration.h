@@ -89,11 +89,11 @@
 
 // Motion Control Settings
 // New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
-//#define MOTION_NEW
+#define MOTION_NEW
 //#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
 
 // Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
-#define MOTION_CLASSIC
+//#define MOTION_CLASSIC
 
 
 // Linear Pressure Control
@@ -121,7 +121,7 @@
 //          TMC2208, TMC2208_STANDALONE, TMC2209, TMC2209_STANDALONE,
 //          TMC26X,  TMC26X_STANDALONE,  TMC2660, TMC2660_STANDALONE,
 //          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
-//#define CUSTOM_STEPPER_DRIVERS
+#define CUSTOM_STEPPER_DRIVERS
 #if ENABLED(CUSTOM_STEPPER_DRIVERS)
   #define DRIVER_X TMC2209_STANDALONE
   #define DRIVER_Y TMC2209_STANDALONE
@@ -130,8 +130,8 @@
   //#define DRIVER_E1 TMC2209_STANDALONE
   //#define DRIVER_Z2 TMC2209_STANDALONE
 
-  //#define INVERT_X
-  //#define INVERT_Y
+  #define INVERT_X
+  #define INVERT_Y
   #define INVERT_Z 
   #define INVERT_E0 
   //#define INVERT_Z2
@@ -751,9 +751,9 @@
 	
   #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Plus
-    #define DEFAULT_Kp 15.30
-    #define DEFAULT_Ki 0.85
-    #define DEFAULT_Kd 56.55
+    #define DEFAULT_Kp 16.11
+    #define DEFAULT_Ki 1.32
+    #define DEFAULT_Kd 49.06
   #elif ENABLED(BLUER) && NONE(CUSTOM_HOTEND_PID) 
     //Bluer
     #define DEFAULT_Kp 8.4
@@ -1132,7 +1132,7 @@
       #define STEPS_Z     1600
     #endif
     #ifndef STEPS_E0
-      #define STEPS_E0    461
+      #define STEPS_E0    450
     #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
@@ -1199,7 +1199,7 @@
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 10, 50 } // ...or, set your own edit limits
+  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 25, 50 } // ...or, set your own edit limits
 #endif
 
 /**
@@ -1208,7 +1208,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 75, 6000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1226,9 +1226,9 @@
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
   #define DEFAULT_ACCELERATION          1000    // X, Y, Z and E acceleration for printing moves
-  #define DEFAULT_RETRACT_ACCELERATION  1500    // E acceleration for retracts
+  #define DEFAULT_RETRACT_ACCELERATION  800   // E acceleration for retracts
   /* Was 2000*/
-  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
   /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
@@ -1301,7 +1301,7 @@
   #define S_CURVE_ACCELERATION
 #else
   // No Preset Classic Motion
-  #define S_CURVE_ACCELERATION
+  //#define S_CURVE_ACCELERATION
 #endif
 
 //===========================================================================
