@@ -1369,7 +1369,9 @@
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
  *   (e.g., an inductive probe or a nozzle-based probe-switch.)
  */
-//#define FIX_MOUNTED_PROBE
+#define FIX_MOUNTED_PROBE
+
+// Changesfor Inductive Probe
 
 /**
  * Use the nozzle as the probe, as with a conductive
@@ -1469,7 +1471,7 @@
   #define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
 #else
   // No Preset
-  #define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }
+  #define NOZZLE_TO_PROBE_OFFSET { 0, -30, 0 }
 #endif
 
 // Most probes should stay away from the edges of the bed, but
