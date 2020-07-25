@@ -126,13 +126,13 @@
   #define DRIVER_X TMC2209_STANDALONE
   #define DRIVER_Y TMC2209_STANDALONE
   #define DRIVER_Z TMC2209_STANDALONE
-  #define DRIVER_E0 TMC2209_STANDALONE
+  #define DRIVER_E0 TMC2208_STANDALONE
   //#define DRIVER_E1 TMC2209_STANDALONE
   //#define DRIVER_Z2 TMC2209_STANDALONE
 
-  #define INVERT_X
-  #define INVERT_Y
-  #define INVERT_Z 
+  //#define INVERT_X
+  //#define INVERT_Y
+  //#define INVERT_Z 
   #define INVERT_E0 
   //#define INVERT_Z2
   //#define INVERT_E1
@@ -745,9 +745,9 @@
   #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Pro
     
-#define DEFAULT_Kp 8.63
-#define DEFAULT_Ki 0.40
-#define DEFAULT_Kd 46.87
+#define DEFAULT_Kp 12.32
+#define DEFAULT_Ki 0.78
+#define DEFAULT_Kd 48.89
 	
   #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Plus
@@ -810,9 +810,11 @@
 
   #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_BED_PID) 
     //Sapphire Pro
-    #define DEFAULT_bedKp 21.37
-    #define DEFAULT_bedKi 3.29
-    #define DEFAULT_bedKd 92.53
+#define DEFAULT_bedKp 30.66
+#define DEFAULT_bedKi 4.25
+#define DEFAULT_bedKd 174.51
+	
+
 
   #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_BED_PID) 
     //Sapphire Plus
@@ -1132,7 +1134,7 @@
       #define STEPS_Z     1600
     #endif
     #ifndef STEPS_E0
-      #define STEPS_E0    450
+      #define STEPS_E0    445
     #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
@@ -1537,7 +1539,7 @@
 #if ENABLED(BL_TOUCH)
   #define Z_MIN_PROBE_REPEATABILITY_TEST
 #else
-  //#define Z_MIN_PROBE_REPEATABILITY_TEST
+  #define Z_MIN_PROBE_REPEATABILITY_TEST
 #endif
 
 // Before deploy/stow pause for user confirmation
