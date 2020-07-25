@@ -1471,15 +1471,15 @@
   //#define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
 //#else
   // No Preset
-  #define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }
+  #define NOZZLE_TO_PROBE_OFFSET { 0, 30, 0 }
 //#endif
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 45
+#define PROBING_MARGIN 40
 
 // X and Y axis travel speed (mm/m) between probes
-#define XY_PROBE_SPEED 10000
+#define XY_PROBE_SPEED 9000
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
@@ -1990,6 +1990,11 @@
   //#define MESH_BED_LEVELING
 #endif
 
+// ZOLLER - I WANT MORE POINTS
+    #define GRID_MAX_POINTS_X 4
+    #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+	
+	
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
@@ -2043,7 +2048,7 @@
     #define GRID_MAX_POINTS_X 7
     #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
   #else
-    #define GRID_MAX_POINTS_X 3
+    #define GRID_MAX_POINTS_X 4
     #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
   #endif
 
@@ -2160,8 +2165,8 @@
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (50*80)
-#define HOMING_FEEDRATE_Z  (5*90)
+#define HOMING_FEEDRATE_XY (50*60)
+#define HOMING_FEEDRATE_Z  (5*50)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
