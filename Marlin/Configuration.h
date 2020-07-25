@@ -73,11 +73,11 @@
 //#define BL_TOUCH                 // Enable BLTouch Settings
 #if ENABLED(BL_TOUCH)
   //#define LOW_RES                  // 3x3 Grid 
-  //#define HI_RES                   // 5x5 Grid
+  #define HI_RES                   // 5x5 Grid
   //#define MAX_RES                  // 7x7 Grid
   //#define BL_TOUCH_HIGH_SPEED      // Only for BLTouch 3.0 and 3.1 Probe Pin does not pull in when moving in XY. Use at your own risk!
   //#define Z_CLEARANCE_BL        5  // Z Clearance between probe points
-  //#define MULTIPLE_PROBING_BL   2  // A total of 2 does fast/slow probes with a weighted average.  A total of 3 or more adds more slow probes, taking the average.
+  #define MULTIPLE_PROBING_BL   2  // A total of 2 does fast/slow probes with a weighted average.  A total of 3 or more adds more slow probes, taking the average.
 #endif
   
 
@@ -90,7 +90,7 @@
 // Motion Control Settings
 // New Motion Control              - Classic Jerk [OFF] | S-Curve Acceleration [ON]  | Junction Deviation Factor [ON]
 #define MOTION_NEW
-//#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the function
+//#define MOTION_NEW_JD           // If there is a jerky movement during small circular movements, activate the functio
 
 // Classic Motion Control          - Classic Jerk [ON]  | S-Curve Acceleration [OFF] | Junction Deviation Factor [OFF]
 //#define MOTION_CLASSIC
@@ -856,7 +856,7 @@
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 180
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
@@ -1227,10 +1227,10 @@
  */
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
-  #define DEFAULT_ACCELERATION          1000    // X, Y, Z and E acceleration for printing moves
-  #define DEFAULT_RETRACT_ACCELERATION  800   // E acceleration for retracts
+  #define DEFAULT_ACCELERATION          1250    // X, Y, Z and E acceleration for printing moves
+  #define DEFAULT_RETRACT_ACCELERATION  1000   // E acceleration for retracts
   /* Was 2000*/
-  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
   /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
@@ -1361,8 +1361,8 @@
   //#define MANUAL_PROBE_START_Z 0.2
 #else
   // No Adv. Preset
-  #define PROBE_MANUALLY
-  #define MANUAL_PROBE_START_Z 0.2
+  //#define PROBE_MANUALLY
+  //#define MANUAL_PROBE_START_Z 0.2
 #endif
 
 /**
@@ -1466,20 +1466,20 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#if ENABLED(BL_TOUCH)
+//#if ENABLED(BL_TOUCH)
   // Adv. Preset Probe BL Touch
-  #define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
-#else
+  //#define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
+//#else
   // No Preset
-  #define NOZZLE_TO_PROBE_OFFSET { 0, -30, 0 }
-#endif
+  #define NOZZLE_TO_PROBE_OFFSET { 0, 0, 0 }
+//#endif
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 45
 
 // X and Y axis travel speed (mm/m) between probes
-#define XY_PROBE_SPEED 10500
+#define XY_PROBE_SPEED 10000
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
@@ -1499,7 +1499,7 @@
 #ifdef MULTIPLE_PROBING_BL
   #define MULTIPLE_PROBING MULTIPLE_PROBING_BL
 #else
-  //#define MULTIPLE_PROBING 2
+  #define MULTIPLE_PROBING 2
   //#define EXTRA_PROBING    1
 #endif
 
@@ -1531,7 +1531,7 @@
 #endif
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
-#define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
+#define Z_PROBE_LOW_POINT          -5 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -3
@@ -1985,9 +1985,9 @@
   // No Preset
   //#define AUTO_BED_LEVELING_3POINT
   //#define AUTO_BED_LEVELING_LINEAR
-  //#define AUTO_BED_LEVELING_BILINEAR
+  #define AUTO_BED_LEVELING_BILINEAR
   //#define AUTO_BED_LEVELING_UBL
-  #define MESH_BED_LEVELING
+  //#define MESH_BED_LEVELING
 #endif
 
 /**
@@ -2018,7 +2018,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+  #define G26_MESH_VALIDATION
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
@@ -2151,7 +2151,7 @@
 #if ENABLED (BL_TOUCH)
   #define Z_SAFE_HOMING
 #else
-  //#define Z_SAFE_HOMING
+  #define Z_SAFE_HOMING
 #endif
 
 #if ENABLED(Z_SAFE_HOMING)
@@ -2160,8 +2160,8 @@
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (50*60)
-#define HOMING_FEEDRATE_Z  (5*60)
+#define HOMING_FEEDRATE_XY (50*80)
+#define HOMING_FEEDRATE_Z  (5*90)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
