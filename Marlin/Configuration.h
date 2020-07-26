@@ -1230,7 +1230,7 @@
   #define DEFAULT_ACCELERATION          1250    // X, Y, Z and E acceleration for printing moves
   #define DEFAULT_RETRACT_ACCELERATION  1000   // E acceleration for retracts
   /* Was 2000*/
-  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
   /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
