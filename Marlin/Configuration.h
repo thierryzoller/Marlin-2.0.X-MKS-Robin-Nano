@@ -126,7 +126,7 @@
   #define DRIVER_X TMC2209_STANDALONE
   #define DRIVER_Y TMC2209_STANDALONE
   #define DRIVER_Z TMC2209_STANDALONE
-  #define DRIVER_E0 TMC2208_STANDALONE
+  #define DRIVER_E0 TMC2209_STANDALONE
   //#define DRIVER_E1 TMC2209_STANDALONE
   //#define DRIVER_Z2 TMC2209_STANDALONE
 
@@ -745,9 +745,9 @@
   #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Pro
     
-#define DEFAULT_Kp 12.32
-#define DEFAULT_Ki 0.78
-#define DEFAULT_Kd 48.89
+	#define DEFAULT_Kp 12.13
+    #define DEFAULT_Ki 0.78
+    #define DEFAULT_Kd 46.90
 	
   #elif ENABLED(SAPPHIRE_PLUS) && NONE(CUSTOM_HOTEND_PID) 
     //Sapphire Plus
@@ -766,9 +766,11 @@
     #define DEFAULT_Kd CUSTOM_Kd
   #else
     //No Preset
-    #define DEFAULT_Kp 22.2
-    #define DEFAULT_Ki 1.08
-    #define DEFAULT_Kd 114
+    
+	#define DEFAULT_Kp 12.13
+    #define DEFAULT_Ki 0.78
+    #define DEFAULT_Kd 46.90
+  
   #endif
 
 #endif // PIDTEMP
@@ -810,9 +812,9 @@
 
   #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_BED_PID) 
     //Sapphire Pro
-#define DEFAULT_bedKp 30.66
-#define DEFAULT_bedKi 4.25
-#define DEFAULT_bedKd 174.51
+ #define DEFAULT_bedKp 40.06
+#define DEFAULT_bedKi 4.03
+ #define DEFAULT_bedKd 265.44
 	
 
 
@@ -832,9 +834,9 @@
     #define DEFAULT_bedKd CUSTOM_BED_Kd 
   #else
     //No Preset
-    #define DEFAULT_bedKp 10.00
-    #define DEFAULT_bedKi .023
-    #define DEFAULT_bedKd 305.4
+ #define DEFAULT_bedKp 40.06
+#define DEFAULT_bedKi 4.03
+ #define DEFAULT_bedKd 265.44
   #endif
 #endif // PIDTEMPBED
 
@@ -1134,7 +1136,7 @@
       #define STEPS_Z     1600
     #endif
     #ifndef STEPS_E0
-      #define STEPS_E0    445
+      #define STEPS_E0    454
     #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
@@ -1210,7 +1212,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 75, 6000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 75, 8000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1227,10 +1229,10 @@
  */
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
-  #define DEFAULT_ACCELERATION          1250    // X, Y, Z and E acceleration for printing moves
+  #define DEFAULT_ACCELERATION          1000   // X, Y, Z and E acceleration for printing moves
   #define DEFAULT_RETRACT_ACCELERATION  1000   // E acceleration for retracts
   /* Was 2000*/
-  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
   /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
@@ -1471,7 +1473,7 @@
   //#define NOZZLE_TO_PROBE_OFFSET { OFFSET_X, OFFSET_Y, OFFSET_Z }
 //#else
   // No Preset
-  #define NOZZLE_TO_PROBE_OFFSET { 0, -35, 0 }
+  #define NOZZLE_TO_PROBE_OFFSET { 0, -33, 0 }
 //#endif
 
 // Most probes should stay away from the edges of the bed, but
@@ -1479,10 +1481,10 @@
 #define PROBING_MARGIN 40
 
 // X and Y axis travel speed (mm/m) between probes
-#define XY_PROBE_SPEED 9000
+#define XY_PROBE_SPEED 8000
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_SPEED_FAST 500
+#define Z_PROBE_SPEED_FAST 200
 
 // Feedrate (mm/m) for the "accurate" probe of each point
 #define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST)
@@ -2166,7 +2168,7 @@
 
 // Homing speeds (mm/m)
 #define HOMING_FEEDRATE_XY (50*60)
-#define HOMING_FEEDRATE_Z  (5*50)
+#define HOMING_FEEDRATE_Z  (5*40)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
