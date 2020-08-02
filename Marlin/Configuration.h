@@ -142,7 +142,7 @@
 // This mode allows for cooler steppers and energy savings.
 // the driver will switch to coolStep when stepper speed is over COOLSTEP_THRESHOLD mm/s.
 // Settings for CoolStep in CONFIGURATION_ADV.h on Line 2499 
-//#define COOLSTEP
+#define COOLSTEP
 
 // Custom Axis Steps Per MM
 // If you have calibrated the extruder before, you can enter the steps here, also be specified individually for the other axes.
@@ -1223,7 +1223,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 75, 8000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 75, 6000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1241,9 +1241,9 @@
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
   #define DEFAULT_ACCELERATION          1000   // X, Y, Z and E acceleration for printing moves
-  #define DEFAULT_RETRACT_ACCELERATION  1000   // E acceleration for retracts
+  #define DEFAULT_RETRACT_ACCELERATION  800   // E acceleration for retracts
   /* Was 2000*/
-  #define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves
+  #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
   /* Was 1500*/
 #elif ENABLED (BLUER)
   //Bluer
