@@ -1148,7 +1148,7 @@
       #define STEPS_Z     1600
     #endif
     #ifndef STEPS_E0
-      #define STEPS_E0    454
+      #define STEPS_E0    455
     #endif
   #elif ENABLED(SAPPHIRE_PLUS)
     //Sapphire Plus
