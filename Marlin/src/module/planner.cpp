@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -1833,7 +1833,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
   #endif
 
   // Number of steps for each axis
-  // See http://www.corexy.com/theory.html
+  // See https://www.corexy.com/theory.html
   #if CORE_IS_XY
     block->steps.set(ABS(da + db), ABS(da - db), ABS(dc));
   #elif CORE_IS_XZ
@@ -2314,7 +2314,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
       #if HAS_DIST_MM_ARG
         cart_dist_mm
       #else
-        { steps_dist_mm.a, steps_dist_mm.b, steps_dist_mm.z, steps_dist_mm.e }
+        { steps_dist_mm.x, steps_dist_mm.y, steps_dist_mm.z, steps_dist_mm.e }
       #endif
     ;
 
@@ -2334,7 +2334,7 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
       // Compute cosine of angle between previous and current path. (prev_unit_vec is negative)
       // NOTE: Max junction velocity is computed without sin() or acos() by trig half angle identity.
       float junction_cos_theta = (-prev_unit_vec.x * unit_vec.x) + (-prev_unit_vec.y * unit_vec.y)
-                               + (-prev_unit_vec.z * unit_vec.z);
+                               + (-prev_unit_vec.z * unit_vec.z) + (-prev_unit_vec.e * unit_vec.e);
 
       // NOTE: Computed without any expensive trig, sin() or acos(), by trig half angle identity of cos(theta).
       if (junction_cos_theta > 0.999999f) {

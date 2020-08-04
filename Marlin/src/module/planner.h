@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -956,13 +956,13 @@ class Planner {
 
       FORCE_INLINE static void normalize_junction_vector(xyze_float_t &vector) {
         float magnitude_sq = 0;
-        LOOP_XYZ(idx) if (vector[idx]) magnitude_sq += sq(vector[idx]);
+        LOOP_XYZE(idx) if (vector[idx]) magnitude_sq += sq(vector[idx]);
         vector *= RSQRT(magnitude_sq);
       }
 
       FORCE_INLINE static float limit_value_by_axis_maximum(const float &max_value, xyze_float_t &unit_vec) {
         float limit_value = max_value;
-        LOOP_XYZ(idx) {
+        LOOP_XYZE(idx) {
           if (unit_vec[idx]) {
             if (limit_value * ABS(unit_vec[idx]) > settings.max_acceleration_mm_per_s2[idx])
               limit_value = ABS(settings.max_acceleration_mm_per_s2[idx] / unit_vec[idx]);
@@ -971,7 +971,7 @@ class Planner {
         return limit_value;
       }
 
-    #endif // !HAS_JUNCTION_DEVIATION
+    #endif // !CLASSIC_JERK
 };
 
 #define PLANNER_XY_FEEDRATE() (_MIN(planner.settings.max_feedrate_mm_s[X_AXIS], planner.settings.max_feedrate_mm_s[Y_AXIS]))
