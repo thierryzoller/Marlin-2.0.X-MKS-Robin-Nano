@@ -1241,7 +1241,7 @@
  */
 #if ANY (SAPPHIRE_PRO, SAPPHIRE_PLUS)
   //Sapphire Pro & Plus
-  #define DEFAULT_ACCELERATION          1000   // X, Y, Z and E acceleration for printing moves
+  #define DEFAULT_ACCELERATION          1250   // X, Y, Z and E acceleration for printing moves
   #define DEFAULT_RETRACT_ACCELERATION  800   // E acceleration for retracts
   /* Was 2000*/
   #define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
@@ -1496,10 +1496,10 @@
 #define XY_PROBE_SPEED 8000
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_SPEED_FAST 200
+#define Z_PROBE_SPEED_FAST 100
 
 // Feedrate (mm/m) for the "accurate" probe of each point
-#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST)
+#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST/2)
 
 /**
  * Multiple Probing
@@ -1513,7 +1513,7 @@
 #ifdef MULTIPLE_PROBING_BL
   #define MULTIPLE_PROBING MULTIPLE_PROBING_BL
 #else
-  #define MULTIPLE_PROBING 2
+  #define MULTIPLE_PROBING 3
   //#define EXTRA_PROBING    1
 #endif
 
@@ -2180,7 +2180,7 @@
 
 // Homing speeds (mm/m)
 #define HOMING_FEEDRATE_XY (50*60)
-#define HOMING_FEEDRATE_Z  (5*40)
+#define HOMING_FEEDRATE_Z  (4*40)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
