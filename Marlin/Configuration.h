@@ -823,7 +823,10 @@
  // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 
   #if ENABLED(SAPPHIRE_PRO) && NONE(CUSTOM_BED_PID) 
-
+    //Sapphire Pro
+ #define DEFAULT_bedKp 40.06
+#define DEFAULT_bedKi 4.03
+ #define DEFAULT_bedKd 265.44
 	
 
 
@@ -1508,7 +1511,7 @@
  * A total of 3 or more adds more slow probes, taking the average.
  */
 #ifdef MULTIPLE_PROBING_BL
-  #define cf
+  #define MULTIPLE_PROBING MULTIPLE_PROBING_BL
 #else
   #define MULTIPLE_PROBING 3
   #define EXTRA_PROBING    1
